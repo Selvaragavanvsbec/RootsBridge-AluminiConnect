@@ -1,4 +1,4 @@
-# 🎓 AlumniConnect
+# 🎓 RootsBridge-AlumniConnect
 
 > **Where Alumni Journeys Reunite** — A fully responsive alumni networking platform built with pure HTML, CSS, and Vanilla JavaScript.
 
