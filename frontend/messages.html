@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Messages – RootsBridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .msg-wrapper{display:grid;grid-template-columns:320px 1fr;height:calc(100vh - 80px);background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh-md)}
+    .msg-sidebar{border-right:1px solid var(--border-lt);display:flex;flex-direction:column}
+    .msg-sidebar-header{padding:20px;border-bottom:1px solid rgba(5,150,105,.08)}
+    .msg-sidebar-header h3{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--ink)}
+    .msg-search{margin-top:12px;padding:8px 14px;border-radius:100px;border:1.5px solid rgba(5,150,105,.18);background:rgba(253,250,243,.6);font-family:var(--fb);font-size:.82rem;color:var(--ink);outline:none;width:100%;transition:var(--tr)}
+    .msg-search:focus{border-color:var(--em)}
+    .msg-contacts{flex:1;overflow-y:auto}
+    .msg-contact{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;transition:var(--tr);border-bottom:1px solid rgba(5,150,105,.04)}
+    .msg-contact:hover,.msg-contact.active{background:rgba(5,150,105,.06)}
+    .msg-contact-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#fff;flex-shrink:0}
+    .msg-contact-info{flex:1;min-width:0}
+    .msg-contact-name{font-size:.88rem;font-weight:600;color:var(--ink)}
+    .msg-contact-preview{font-size:.76rem;color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .msg-contact-time{font-size:.68rem;color:var(--ink-muted)}
+    .msg-unread{width:8px;height:8px;border-radius:50%;background:var(--em);flex-shrink:0}
+    .msg-chat{display:flex;flex-direction:column}
+    .msg-chat-header{padding:16px 24px;border-bottom:1px solid rgba(5,150,105,.08);display:flex;align-items:center;gap:12px}
+    .msg-chat-name{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--ink)}
+    .msg-chat-status{font-size:.74rem;color:var(--em)}
+    .msg-chat-body{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:12px}
+    .msg-bubble{max-width:70%;padding:12px 16px;border-radius:18px;font-size:.88rem;line-height:1.55}
+    .msg-sent{background:linear-gradient(135deg,var(--em),var(--em-rich));color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+    .msg-received{background:rgba(5,150,105,.06);color:var(--ink);border:1px solid rgba(5,150,105,.1);align-self:flex-start;border-bottom-left-radius:4px}
+    .msg-time{font-size:.68rem;margin-top:4px}
+    .msg-sent .msg-time{color:rgba(255,255,255,.6)}
+    .msg-received .msg-time{color:var(--ink-muted)}
+    .msg-input-bar{padding:16px 24px;border-top:1px solid rgba(5,150,105,.08);display:flex;gap:10px}
+    .msg-input{flex:1;padding:12px 18px;border-radius:100px;border:1.5px solid rgba(5,150,105,.18);background:rgba(253,250,243,.6);font-family:var(--fb);font-size:.88rem;color:var(--ink);outline:none}
+    .msg-input:focus{border-color:var(--em)}
+    .msg-send-btn{padding:12px 24px;border-radius:100px;background:var(--em);color:#fff;border:none;font-family:var(--fb);font-size:.85rem;font-weight:600;cursor:pointer;transition:var(--tr)}
+    .msg-send-btn:hover{background:var(--em-rich)}
+    @media(max-width:768px){.msg-wrapper{grid-template-columns:1fr}.msg-sidebar{display:none}}
+  </style>
+</head>
+<body>
+<div id="main-nav"></div>
+<div class="dash-body">
+  <div class="container">
+    <div class="msg-wrapper">
+      <div class="msg-sidebar">
+        <div class="msg-sidebar-header"><h3>💬 Messages</h3><input type="text" class="msg-search" placeholder="Search conversations…"/></div>
+        <div class="msg-contacts" id="contacts"></div>
+      </div>
+      <div class="msg-chat" id="chat-area">
+        <div class="msg-chat-header" id="chat-header"><div class="msg-contact-av" style="background:linear-gradient(135deg,#059669,#10B981);">AK</div><div><div class="msg-chat-name">Arjun Krishnamurthy</div><div class="msg-chat-status">● Online</div></div></div>
+        <div class="msg-chat-body" id="chat-body"></div>
+        <div class="msg-input-bar"><input type="text" class="msg-input" id="msg-input" placeholder="Type a message…" onkeydown="if(event.key==='Enter')sendMsg()"/><button class="msg-send-btn" onclick="sendMsg()">Send →</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+<script src="js/config.js"></script><script src="js/api.js"></script><script src="js/app.js"></script>
+<script>
+if(!requireAuth()){}
+renderNav('messages');
+const contacts=[
+  {name:'Arjun Krishnamurthy',preview:'Thanks for the advice!',time:'2m ago',unread:true},
+  {name:'Priya Kannan',preview:'Sure, let me check.',time:'1h ago',unread:false},
+  {name:'Sowmya Mahesh',preview:'The meeting is at 4 PM.',time:'3h ago',unread:true},
+  {name:'Deepak Murali',preview:'Great work on the project!',time:'1d ago',unread:false},
+];
+const msgs=[
+  {from:'them',text:'Hi! I saw your profile on RootsBridge. I\'d love to connect.',time:'10:30 AM'},
+  {from:'me',text:'Hey Arjun! Great to hear from you. I\'m interested in ML — would love your guidance.',time:'10:35 AM'},
+  {from:'them',text:'Of course! I\'d recommend starting with Andrew Ng\'s course and then building projects.',time:'10:42 AM'},
+  {from:'me',text:'That\'s really helpful. Any tips on getting into Google specifically?',time:'11:00 AM'},
+  {from:'them',text:'Focus on system design and data structures. Happy to do a mock interview with you!',time:'11:15 AM'},
+  {from:'me',text:'Thanks for the advice! That would be amazing.',time:'11:20 AM'},
+];
+document.getElementById('contacts').innerHTML=contacts.map((c,i)=>`<div class="msg-contact ${i===0?'active':''}" onclick="selectChat(${i})"><div class="msg-contact-av" style="background:${getAvatarColor(c.name)}">${getInitials(c.name)}</div><div class="msg-contact-info"><div class="msg-contact-name">${c.name}</div><div class="msg-contact-preview">${c.preview}</div></div><div style="text-align:right"><div class="msg-contact-time">${c.time}</div>${c.unread?'<div class="msg-unread"></div>':''}</div></div>`).join('');
+function renderMsgs(){document.getElementById('chat-body').innerHTML=msgs.map(m=>`<div class="msg-bubble ${m.from==='me'?'msg-sent':'msg-received'}">${m.text}<div class="msg-time">${m.time}</div></div>`).join('');document.getElementById('chat-body').scrollTop=9999;}
+function sendMsg(){const inp=document.getElementById('msg-input');const t=inp.value.trim();if(!t)return;msgs.push({from:'me',text:t,time:'Just now'});inp.value='';renderMsgs();}
+function selectChat(i){document.querySelectorAll('.msg-contact').forEach(c=>c.classList.remove('active'));document.querySelectorAll('.msg-contact')[i].classList.add('active');showToast('Opened chat with '+contacts[i].name);}
+renderMsgs();
+</script>
+</body>
+</html>

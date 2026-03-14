@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile – RootsBridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .profile-header{background:linear-gradient(135deg,var(--jewel),var(--obsidian));border-radius:var(--rl);padding:40px;margin-bottom:28px;position:relative;overflow:hidden}
+    .profile-header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(16,185,129,.15),transparent 55%);pointer-events:none}
+    .profile-top{display:flex;align-items:center;gap:24px;position:relative;z-index:1}
+    .profile-avatar{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,.2)}
+    .profile-info h1{font-family:var(--fd);font-size:1.6rem;font-weight:700;color:#fff}
+    .profile-info p{font-size:.88rem;color:rgba(255,255,255,.55)}
+    .profile-edit{margin-left:auto;padding:8px 20px;border-radius:100px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:#fff;font-family:var(--fb);font-size:.82rem;font-weight:600;cursor:pointer;transition:var(--tr)}
+    .profile-edit:hover{border-color:#6EE7B7;color:#6EE7B7}
+    .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .profile-section{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);padding:28px;box-shadow:var(--sh-sm)}
+    .profile-section h3{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:18px}
+    .profile-field{margin-bottom:16px}
+    .profile-label{font-size:.76rem;font-weight:600;color:var(--ink-muted);letter-spacing:.02em;margin-bottom:4px}
+    .profile-value{font-size:.9rem;color:var(--ink)}
+    .profile-tags{display:flex;flex-wrap:wrap;gap:6px}
+    .profile-tag{padding:4px 12px;border-radius:100px;font-size:.72rem;font-weight:600;background:var(--em-pale);color:var(--em-rich)}
+    @media(max-width:768px){.profile-grid{grid-template-columns:1fr}.profile-top{flex-direction:column;text-align:center}.profile-edit{margin:12px auto 0}}
+  </style>
+</head>
+<body>
+<div id="main-nav"></div>
+<div class="dash-body">
+  <div class="container">
+    <div class="profile-header">
+      <div class="profile-top">
+        <div class="profile-avatar" id="p-avatar" style="background:linear-gradient(135deg,var(--em),var(--em-glow));">??</div>
+        <div class="profile-info"><h1 id="p-name">Loading...</h1><p id="p-role">—</p></div>
+        <button class="profile-edit" onclick="showModal('modal-edit')">✏️ Edit Profile</button>
+      </div>
+    </div>
+    <div class="profile-grid">
+      <div class="profile-section">
+        <h3>👤 Personal Information</h3>
+        <div class="profile-field"><div class="profile-label">Full Name</div><div class="profile-value" id="pf-name">—</div></div>
+        <div class="profile-field"><div class="profile-label">Email</div><div class="profile-value" id="pf-email">—</div></div>
+        <div class="profile-field"><div class="profile-label">Institution</div><div class="profile-value" id="pf-inst">—</div></div>
+        <div class="profile-field"><div class="profile-label">Graduation Year</div><div class="profile-value" id="pf-year">—</div></div>
+        <div class="profile-field"><div class="profile-label">Department</div><div class="profile-value" id="pf-dept">—</div></div>
+      </div>
+      <div class="profile-section">
+        <h3>💼 Professional</h3>
+        <div class="profile-field"><div class="profile-label">Company</div><div class="profile-value" id="pf-company">—</div></div>
+        <div class="profile-field"><div class="profile-label">Job Title</div><div class="profile-value" id="pf-title">—</div></div>
+        <div class="profile-field"><div class="profile-label">Location</div><div class="profile-value" id="pf-loc">—</div></div>
+        <div class="profile-field"><div class="profile-label">Bio</div><div class="profile-value" id="pf-bio">—</div></div>
+        <div class="profile-field"><div class="profile-label">Skills</div><div class="profile-tags" id="pf-skills"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-edit">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" onclick="closeModal('modal-edit')">✕</button>
+    <div class="modal-title">Edit Profile</div>
+    <div class="modal-sub">Update your professional information.</div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Company</label><input type="text" class="form-input" id="ed-company"/></div>
+        <div class="form-group"><label class="form-label">Job Title</label><input type="text" class="form-input" id="ed-title"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Department</label><input type="text" class="form-input" id="ed-dept"/></div>
+        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="ed-loc"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Bio</label><textarea class="form-textarea" id="ed-bio" placeholder="Tell us about yourself…"></textarea></div>
+      <div class="form-group"><label class="form-label">Skills (comma-separated)</label><input type="text" class="form-input" id="ed-skills" placeholder="Python, Machine Learning, React"/></div>
+      <button class="submit-btn" onclick="saveProfile()">Save Changes →</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+<script src="js/config.js"></script><script src="js/api.js"></script><script src="js/app.js"></script>
+<script>
+if(!requireAuth()){}
+renderNav('profile');
+const user=getUser();
+if(user){
+  document.getElementById('p-avatar').textContent=getInitials(user.full_name);
+  document.getElementById('p-avatar').style.background=getAvatarColor(user.full_name);
+  document.getElementById('p-name').textContent=user.full_name;
+  document.getElementById('p-role').textContent=(user.role||'').charAt(0).toUpperCase()+(user.role||'').slice(1)+' · '+(user.institution||'RootsBridge');
+  document.getElementById('pf-name').textContent=user.full_name;
+  document.getElementById('pf-email').textContent=user.email;
+  document.getElementById('pf-inst').textContent=user.institution||'—';
+}
+// Try fetch profile from API
+(async()=>{
+  try{
+    const res=await API.getProfile();
+    if(res.profile){
+      const p=res.profile;
+      document.getElementById('pf-year').textContent=p.graduation_year||'—';
+      document.getElementById('pf-dept').textContent=p.department||'—';
+      document.getElementById('pf-company').textContent=p.company||'—';
+      document.getElementById('pf-title').textContent=p.job_title||'—';
+      document.getElementById('pf-loc').textContent=p.location||'—';
+      document.getElementById('pf-bio').textContent=p.bio||'—';
+      const sk=p.skills||[];
+      document.getElementById('pf-skills').innerHTML=sk.map(s=>'<span class="profile-tag">'+s+'</span>').join('')||'<span style="font-size:.85rem;color:var(--ink-muted)">No skills added yet</span>';
+      // Pre-fill edit form
+      document.getElementById('ed-company').value=p.company||'';
+      document.getElementById('ed-title').value=p.job_title||'';
+      document.getElementById('ed-dept').value=p.department||'';
+      document.getElementById('ed-loc').value=p.location||'';
+      document.getElementById('ed-bio').value=p.bio||'';
+      document.getElementById('ed-skills').value=(p.skills||[]).join(', ');
+    }
+  }catch(e){}
+})();
+async function saveProfile(){
+  const data={company:document.getElementById('ed-company').value,job_title:document.getElementById('ed-title').value,department:document.getElementById('ed-dept').value,location:document.getElementById('ed-loc').value,bio:document.getElementById('ed-bio').value,skills:document.getElementById('ed-skills').value.split(',').map(s=>s.trim()).filter(Boolean)};
+  try{await API.updateProfile(data);}catch(e){}
+  closeModal('modal-edit');
+  showToast('✅ Profile updated!');
+  setTimeout(()=>location.reload(),800);
+}
+</script>
+</body>
+</html>

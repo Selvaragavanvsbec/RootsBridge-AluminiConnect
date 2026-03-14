@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alumni Directory – RootsBridge</title>
+  <meta name="description" content="Search and connect with verified alumni on RootsBridge."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .search-section { margin-bottom: 32px; }
+    .search-bar { display: flex; gap: 10px; align-items: center; background: var(--card); border: 1px solid var(--border-lt);
+      border-radius: 100px; padding: 10px 20px; box-shadow: var(--sh-sm); transition: var(--tr); }
+    .search-bar:focus-within { border-color: var(--em); box-shadow: 0 0 0 3px rgba(5,150,105,.1); }
+    .search-bar input { flex: 1; border: none; background: transparent; font-family: var(--fb); font-size: .9rem; color: var(--ink); outline: none; }
+    .search-bar input::placeholder { color: rgba(74,102,87,.4); }
+    .search-btn { padding: 8px 20px; border-radius: 100px; background: var(--em); color: #fff; border: none;
+      font-family: var(--fb); font-size: .82rem; font-weight: 600; cursor: pointer; transition: var(--tr); }
+    .search-btn:hover { background: var(--em-rich); }
+    .filters { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .filter-chip { padding: 6px 16px; border-radius: 100px; border: 1.5px solid rgba(5,150,105,.18); background: transparent;
+      font-family: var(--fb); font-size: .78rem; font-weight: 600; color: var(--ink-muted); cursor: pointer; transition: var(--tr); }
+    .filter-chip.active, .filter-chip:hover { background: rgba(5,150,105,.09); border-color: var(--em); color: var(--em); }
+    .alumni-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .alumni-card { background: var(--card); border: 1px solid var(--border-lt); border-radius: var(--rl);
+      padding: 28px; box-shadow: var(--sh-sm); transition: var(--tr); position: relative; overflow: hidden; }
+    .alumni-card::after { content: ''; position: absolute; inset: 0; border-radius: var(--rl);
+      background: linear-gradient(135deg,rgba(5,150,105,.04),transparent 60%); pointer-events: none; }
+    .alumni-card:hover { transform: translateY(-4px); box-shadow: var(--sh-md); }
+    .alumni-avatar { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 16px; position: relative; }
+    .alumni-avatar::after { content: ''; position: absolute; bottom: 2px; right: 2px; width: 14px; height: 14px;
+      border-radius: 50%; background: #10B981; border: 2.5px solid #fff; }
+    .alumni-name { font-family: var(--fd); font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+    .alumni-role { font-size: .78rem; color: var(--ink-muted); margin-bottom: 12px; }
+    .alumni-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+    .alumni-tag { padding: 3px 10px; border-radius: 100px; font-size: .68rem; font-weight: 600;
+      background: var(--em-pale); color: var(--em-rich); }
+    .alumni-actions { display: flex; gap: 8px; }
+    .alumni-connect { flex: 1; padding: 10px; border-radius: 10px; border: 1.5px solid var(--border-lt);
+      background: transparent; font-family: var(--fb); font-size: .8rem; font-weight: 600;
+      color: var(--em); cursor: pointer; transition: var(--tr); }
+    .alumni-connect:hover { background: var(--em); color: #fff; border-color: var(--em); }
+    .alumni-msg { padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border-lt);
+      background: transparent; font-family: var(--fb); font-size: .8rem; cursor: pointer; transition: var(--tr); }
+    .alumni-msg:hover { background: var(--em-pale); border-color: var(--em); }
+    @media (max-width: 1024px) { .alumni-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { .alumni-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="main-nav"></div>
+
+<div class="dash-body">
+  <div class="container">
+    <div class="dash-header">
+      <h1 class="dash-title">Alumni Directory</h1>
+      <p class="dash-subtitle">Search and connect with verified alumni from your institution.</p>
+    </div>
+
+    <div class="search-section">
+      <div class="search-bar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ink-muted);"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="search-input" placeholder="Search alumni by name, company, or skill…" oninput="searchAlumni()"/>
+        <button class="search-btn" onclick="searchAlumni()">Search</button>
+      </div>
+      <div class="filters">
+        <button class="filter-chip active" onclick="filterDept(this, '')">All</button>
+        <button class="filter-chip" onclick="filterDept(this, 'CSE')">Computer Science</button>
+        <button class="filter-chip" onclick="filterDept(this, 'ECE')">Electronics</button>
+        <button class="filter-chip" onclick="filterDept(this, 'ME')">Mechanical</button>
+        <button class="filter-chip" onclick="filterDept(this, 'EEE')">Electrical</button>
+      </div>
+    </div>
+
+    <div class="alumni-grid" id="alumni-grid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+<script>
+  if (!requireAuth()) { }
+  renderNav('alumni');
+
+  // Sample alumni data (used when API isn't connected)
+  const sampleAlumni = [
+    { full_name: 'Arjun Krishnamurthy', profiles: { company: 'Google', job_title: 'Sr. Engineer', skills: ['Machine Learning','Python'], graduation_year: '2018', department: 'CSE', is_open_to_mentor: true }},
+    { full_name: 'Sowmya Mahesh', profiles: { company: 'Flipkart', job_title: 'Product Manager', skills: ['Product Strategy','UX'], graduation_year: '2019', department: 'CSE', is_open_to_mentor: true }},
+    { full_name: 'Rahul Venkatesh', profiles: { company: 'TechEdge', job_title: 'Founder', skills: ['Entrepreneurship','Fundraising','B2B SaaS'], graduation_year: '2015', department: 'ECE', is_open_to_mentor: false }},
+    { full_name: 'Priya Kannan', profiles: { company: 'Microsoft', job_title: 'Data Scientist', skills: ['Data Science','NLP','R / Python'], graduation_year: '2020', department: 'CSE', is_open_to_mentor: true }},
+    { full_name: 'Deepak Murali', profiles: { company: 'Atlassian', job_title: 'DevOps Lead', skills: ['DevOps','Kubernetes','Cloud'], graduation_year: '2017', department: 'CSE', is_open_to_mentor: false }},
+    { full_name: 'Nithya Gopalan', profiles: { company: 'Adobe', job_title: 'UX Designer', skills: ['UI/UX Design','Figma','Design Systems'], graduation_year: '2021', department: 'CSE', is_open_to_mentor: true }},
+    { full_name: 'Karthik Raman', profiles: { company: 'Amazon', job_title: 'Solutions Architect', skills: ['AWS','System Design','Java'], graduation_year: '2016', department: 'ECE', is_open_to_mentor: true }},
+    { full_name: 'Meera Subramaniam', profiles: { company: 'Infosys', job_title: 'Tech Lead', skills: ['React','Node.js','Agile'], graduation_year: '2019', department: 'CSE', is_open_to_mentor: false }},
+    { full_name: 'Vijay Prakash', profiles: { company: 'Tesla', job_title: 'Mechanical Engineer', skills: ['CAD','Simulations','EV Design'], graduation_year: '2018', department: 'ME', is_open_to_mentor: true }},
+  ];
+
+  let currentFilter = '';
+
+  function renderAlumni(list) {
+    const grid = document.getElementById('alumni-grid');
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">No alumni found</div><div class="empty-text">Try a different search term or filter.</div></div>';
+      return;
+    }
+    grid.innerHTML = list.map(a => {
+      const p = a.profiles || {};
+      const initials = getInitials(a.full_name);
+      const color = getAvatarColor(a.full_name);
+      const skills = (p.skills || []).slice(0, 3);
+      return `
+        <div class="alumni-card">
+          <div class="alumni-avatar" style="background:${color}">${initials}</div>
+          <div class="alumni-name">${a.full_name}</div>
+          <div class="alumni-role">${p.job_title || ''} @ ${p.company || ''} · Class of ${p.graduation_year || ''}</div>
+          <div class="alumni-tags">${skills.map(s => `<span class="alumni-tag">${s}</span>`).join('')}${p.is_open_to_mentor ? '<span class="alumni-tag" style="background:var(--gold-lt);color:var(--gold-rich);">Open to Mentor</span>' : ''}</div>
+          <div class="alumni-actions">
+            <button class="alumni-connect" onclick="showToast('📩 Connection request sent to ${a.full_name}!')">Connect →</button>
+            <button class="alumni-msg" onclick="showToast('💬 Opening chat with ${a.full_name}')">💬</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function searchAlumni() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    let results = sampleAlumni.filter(a => {
+      const text = (a.full_name + ' ' + (a.profiles?.company || '') + ' ' + (a.profiles?.skills || []).join(' ')).toLowerCase();
+      return text.includes(q);
+    });
+    if (currentFilter) results = results.filter(a => a.profiles?.department === currentFilter);
+    renderAlumni(results);
+  }
+
+  function filterDept(btn, dept) {
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = dept;
+    searchAlumni();
+  }
+
+  // Initial render
+  renderAlumni(sampleAlumni);
+</script>
+</body>
+</html>

@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RootsBridge – Connecting Generations of Talent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ivory:    #FDFAF3; --ivory2: #F5F8EF; --em-pale: #E8F4EC; --em-lt: #D0EDDA;
+      --em:       #059669; --em-rich: #047857; --em-glow: #10B981;
+      --gold:     #D4A847; --gold-lt: #FBF0D4; --gold-rich: #B8860B;
+      --ink:      #0A1F14; --ink-mid: #1C3D2A; --ink-muted: #4A6657;
+      --obsidian: #011F18; --jewel: #023B2C; --deep: #035F46;
+      --border-lt: rgba(5,150,105,.16);
+      --card:     rgba(253,250,243,.92);
+      --r:14px; --rl:24px;
+      --sh-sm:0 2px 10px rgba(4,120,87,.08);
+      --sh-md:0 8px 32px rgba(4,120,87,.14);
+      --sh-lg:0 24px 64px rgba(4,120,87,.18);
+      --fd:'Playfair Display',serif; --fb:'DM Sans',sans-serif;
+      --tr:.26s cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--fb);font-size:16px;line-height:1.6;color:var(--ink);overflow-x:hidden;
+      background:linear-gradient(180deg,#FDFAF3 0%,#F5F8EF 11%,#E8F4EC 22%,#D0EDDA 34%,#9ED4B8 44%,#52AC88 52%,#047857 60%,#035F46 70%,#024434 80%,#023B2C 88%,#011F18 100%) fixed;}
+    img{display:block;max-width:100%;}
+    a{color:inherit;text-decoration:none;}
+    ul{list-style:none;}
+    .container{max-width:1160px;margin:0 auto;padding:0 24px;}
+
+    /* ─── PAGE VIEWS ─────────────────────────────────────────── */
+    .page{display:none;} .page.active{display:block;}
+
+    /* ─── BUTTONS ────────────────────────────────────────────── */
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;
+      font-family:var(--fb);font-size:.92rem;font-weight:600;cursor:pointer;border:none;transition:var(--tr);letter-spacing:.01em;}
+    .btn-em{background:var(--em);color:#fff;box-shadow:0 4px 18px rgba(5,150,105,.35);}
+    .btn-em:hover{background:var(--em-rich);transform:translateY(-2px);box-shadow:0 8px 28px rgba(5,150,105,.45);}
+    .btn-ivory{background:var(--ivory);color:var(--ink);border:1.5px solid rgba(5,150,105,.2);}
+    .btn-ivory:hover{border-color:var(--em);transform:translateY(-2px);box-shadow:var(--sh-sm);}
+    .btn-white{background:#fff;color:var(--ink);}
+    .btn-white:hover{background:var(--em-pale);transform:translateY(-2px);box-shadow:var(--sh-md);}
+    .btn-ghost{background:transparent;color:rgba(255,255,255,.78);border:1.5px solid rgba(255,255,255,.24);}
+    .btn-ghost:hover{border-color:rgba(255,255,255,.55);color:#fff;transform:translateY(-2px);}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-rich));color:#fff;box-shadow:0 4px 18px rgba(212,168,71,.35);}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,71,.45);}
+
+    /* ─────────────────────────────────────────────────────────
+       1. SPLASH SCREEN
+    ───────────────────────────────────────────────────────── */
+    #splash{position:fixed;inset:0;z-index:9999;background:var(--obsidian);
+      display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden;
+      transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1);}
+    #splash.hide{opacity:0;transform:scale(1.05);pointer-events:none;}
+
+    .sp-glow{position:absolute;width:640px;height:640px;border-radius:50%;
+      background:radial-gradient(circle,rgba(16,185,129,.18) 0%,transparent 68%);
+      animation:sp-pulse 2.6s ease-in-out infinite;}
+    @keyframes sp-pulse{0%,100%{transform:scale(.85);opacity:.6}50%{transform:scale(1.15);opacity:1}}
+    .sp-ring{position:absolute;border-radius:50%;border:1px solid rgba(110,231,183,.1);animation:sp-spin linear infinite;}
+    .sp-r1{width:320px;height:320px;animation-duration:14s;}
+    .sp-r2{width:520px;height:520px;border-color:rgba(110,231,183,.055);animation-duration:22s;animation-direction:reverse;}
+    .sp-r3{width:720px;height:720px;border-color:rgba(110,231,183,.03);animation-duration:35s;}
+    @keyframes sp-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .sp-r1::after{content:'';position:absolute;width:8px;height:8px;border-radius:50%;
+      background:var(--em-glow);top:-4px;left:calc(50% - 4px);box-shadow:0 0 14px 4px rgba(16,185,129,.7);}
+    .sp-center{position:relative;z-index:1;text-align:center;display:flex;flex-direction:column;align-items:center;}
+    .sp-logo-mark{width:72px;height:72px;border-radius:20px;
+      background:linear-gradient(135deg,var(--em-glow),var(--em-rich));
+      display:flex;align-items:center;justify-content:center;margin-bottom:28px;
+      box-shadow:0 0 48px rgba(16,185,129,.5),0 10px 28px rgba(4,120,87,.4);
+      animation:sp-drop .7s cubic-bezier(.22,1,.36,1) .15s both;}
+    .sp-logo-mark svg{width:36px;height:36px;}
+    @keyframes sp-drop{from{opacity:0;transform:translateY(-28px) scale(.75)}to{opacity:1;transform:none}}
+    .sp-brand{font-family:var(--fd);font-size:clamp(2.8rem,8vw,5rem);font-weight:900;
+      color:#fff;letter-spacing:-.03em;line-height:1;margin-bottom:6px;
+      animation:sp-rise .75s cubic-bezier(.22,1,.36,1) .35s both;}
+    .sp-brand em{color:#6EE7B7;font-style:italic;}
+    @keyframes sp-rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    .sp-line{width:0;height:2px;background:linear-gradient(90deg,var(--em-glow),#6EE7B7);border-radius:2px;margin:18px auto;
+      animation:sp-grow .6s ease .65s both;}
+    @keyframes sp-grow{from{width:0;opacity:0}to{width:52px;opacity:1}}
+    .sp-quote{font-family:var(--fd);font-style:italic;font-size:clamp(1rem,2.8vw,1.3rem);font-weight:400;
+      color:rgba(255,255,255,.48);letter-spacing:.015em;line-height:1.55;max-width:400px;
+      animation:sp-rise .8s cubic-bezier(.22,1,.36,1) .75s both;}
+    .sp-quote strong{color:#6EE7B7;font-style:normal;font-weight:600;}
+    .sp-skip{position:absolute;bottom:42px;font-family:var(--fb);font-size:.72rem;
+      color:rgba(255,255,255,.22);letter-spacing:.1em;text-transform:uppercase;
+      cursor:pointer;border:none;background:none;animation:sp-rise .6s ease 1.5s both;transition:color .2s;}
+    .sp-skip:hover{color:rgba(255,255,255,.55);}
+    .sp-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);}
+    .sp-bar{height:100%;background:linear-gradient(90deg,var(--em),#6EE7B7);
+      box-shadow:0 0 10px rgba(16,185,129,.6);animation:sp-load 3s cubic-bezier(.37,0,.63,1) forwards;width:0%;}
+    @keyframes sp-load{from{width:0%}to{width:100%}}
+    .sp-dot{position:absolute;border-radius:50%;background:rgba(110,231,183,.3);}
+    .sd1{width:5px;height:5px;top:16%;left:18%;animation:sp-blink 2.2s ease-in-out infinite .3s;}
+    .sd2{width:3px;height:3px;top:24%;right:22%;animation:sp-blink 2.2s ease-in-out infinite .8s;}
+    .sd3{width:4px;height:4px;bottom:20%;left:28%;animation:sp-blink 2.2s ease-in-out infinite 1.2s;}
+    .sd4{width:3px;height:3px;bottom:28%;right:18%;animation:sp-blink 2.2s ease-in-out infinite .5s;}
+    .sd5{width:6px;height:6px;top:55%;left:8%;animation:sp-blink 2.2s ease-in-out infinite 1.4s;}
+    .sd6{width:4px;height:4px;top:40%;right:10%;animation:sp-blink 2.2s ease-in-out infinite .9s;}
+    @keyframes sp-blink{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.9)}}
+
+    /* ─────────────────────────────────────────────────────────
+       2. LOGIN PAGE
+    ───────────────────────────────────────────────────────── */
+    #page-login{min-height:100vh;display:none;align-items:stretch;}
+    #page-login.active{display:flex;}
+
+    .lp-left{
+      flex:1;min-height:100vh;position:relative;overflow:hidden;
+      background:linear-gradient(145deg,var(--jewel) 0%,var(--obsidian) 100%);
+      display:flex;flex-direction:column;justify-content:space-between;
+      padding:48px 52px;
+    }
+    .lp-left-glow{position:absolute;width:500px;height:500px;border-radius:50%;top:-120px;right:-100px;
+      background:radial-gradient(circle,rgba(16,185,129,.18) 0%,transparent 65%);pointer-events:none;}
+    .lp-left-glow2{position:absolute;width:350px;height:350px;border-radius:50%;bottom:-80px;left:-80px;
+      background:radial-gradient(circle,rgba(212,168,71,.1) 0%,transparent 65%);pointer-events:none;}
+    .lp-left-ring{position:absolute;border-radius:50%;border:1px solid rgba(110,231,183,.07);pointer-events:none;}
+    .lr1{width:360px;height:360px;bottom:80px;right:-80px;animation:sp-spin 18s linear infinite;}
+    .lr2{width:560px;height:560px;bottom:-100px;right:-200px;border-color:rgba(110,231,183,.04);animation:sp-spin 28s linear infinite reverse;}
+    .lp-brand{position:relative;z-index:1;}
+    .lp-logo{font-family:var(--fd);font-size:1.7rem;font-weight:700;color:#fff;
+      display:flex;align-items:center;gap:12px;margin-bottom:60px;}
+    .lp-logo-mark{width:42px;height:42px;border-radius:12px;
+      background:linear-gradient(135deg,var(--em-glow),var(--em-rich));
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 0 24px rgba(16,185,129,.4);}
+    .lp-logo-mark svg{width:22px;height:22px;}
+    .lp-logo em{color:#6EE7B7;font-style:normal;}
+    .lp-hero-text{position:relative;z-index:1;}
+    .lp-hero-text h2{font-family:var(--fd);font-size:clamp(2.4rem,4vw,3.4rem);font-weight:700;
+      color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:18px;}
+    .lp-hero-text h2 em{color:#6EE7B7;font-style:italic;}
+    .lp-hero-text p{font-size:.95rem;color:rgba(255,255,255,.48);line-height:1.72;max-width:360px;}
+    .lp-stats{position:relative;z-index:1;display:flex;gap:0;
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--r);overflow:hidden;}
+    .lp-stat{flex:1;padding:18px 20px;text-align:center;}
+    .lp-stat:not(:last-child){border-right:1px solid rgba(255,255,255,.08);}
+    .lp-stat-n{font-family:var(--fd);font-size:1.8rem;font-weight:700;color:#6EE7B7;line-height:1;}
+    .lp-stat-l{font-size:.72rem;color:rgba(255,255,255,.4);margin-top:3px;letter-spacing:.04em;}
+
+    .lp-tcard{
+      position:absolute;bottom:200px;right:-30px;z-index:2;
+      background:rgba(253,250,243,.07);border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(16px);border-radius:var(--r);padding:18px 20px;width:240px;
+      animation:flt 5s ease-in-out infinite;
+    }
+    @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .lp-tcard-q{font-family:var(--fd);font-style:italic;font-size:.88rem;
+      color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:12px;}
+    .lp-tcard-a{display:flex;align-items:center;gap:8px;}
+    .lp-tcard-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--em),var(--em-glow));
+      display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;}
+    .lp-tcard-name{font-size:.72rem;font-weight:600;color:rgba(255,255,255,.75);}
+    .lp-tcard-role{font-size:.65rem;color:rgba(255,255,255,.35);}
+
+    .lp-right{
+      width:520px;min-height:100vh;
+      background:var(--ivory);
+      display:flex;flex-direction:column;justify-content:center;
+      padding:60px 56px;position:relative;overflow:hidden;
+    }
+    .lp-right::before{content:'';position:absolute;top:-120px;right:-120px;width:360px;height:360px;
+      border-radius:50%;background:radial-gradient(circle,rgba(5,150,105,.07) 0%,transparent 65%);}
+    .lp-right-inner{position:relative;z-index:1;width:100%;}
+    .lp-welcome{font-family:var(--fd);font-size:2rem;font-weight:700;
+      color:var(--ink);letter-spacing:-.02em;margin-bottom:6px;}
+    .lp-sub{font-size:.88rem;color:var(--ink-muted);margin-bottom:36px;line-height:1.55;}
+    .lp-sub a{color:var(--em);font-weight:600;cursor:pointer;}
+    .lp-sub a:hover{text-decoration:underline;}
+
+    .role-select{display:flex;gap:8px;margin-bottom:28px;}
+    .role-btn{flex:1;padding:10px 8px;border-radius:10px;border:1.5px solid rgba(5,150,105,.18);
+      background:transparent;font-family:var(--fb);font-size:.78rem;font-weight:600;
+      color:var(--ink-muted);cursor:pointer;transition:var(--tr);text-align:center;}
+    .role-btn.active{background:rgba(5,150,105,.09);border-color:var(--em);color:var(--em);}
+    .role-btn:hover{border-color:var(--em);color:var(--em);}
+
+    .lp-form{display:flex;flex-direction:column;gap:16px;}
+    .form-group{display:flex;flex-direction:column;gap:6px;}
+    .form-label{font-size:.78rem;font-weight:600;color:var(--ink-mid);letter-spacing:.02em;}
+    .form-input{
+      padding:12px 16px;border-radius:var(--r);
+      border:1.5px solid rgba(5,150,105,.18);
+      background:rgba(253,250,243,.6);
+      font-family:var(--fb);font-size:.9rem;color:var(--ink);
+      transition:var(--tr);outline:none;
+    }
+    .form-input:focus{border-color:var(--em);background:#fff;box-shadow:0 0 0 3px rgba(5,150,105,.1);}
+    .form-input::placeholder{color:rgba(74,102,87,.45);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .password-wrap{position:relative;}
+    .password-wrap .form-input{padding-right:44px;width:100%;}
+    .eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+      background:none;border:none;cursor:pointer;color:var(--ink-muted);padding:4px;transition:color var(--tr);}
+    .eye-btn:hover{color:var(--em);}
+    .form-helper{display:flex;justify-content:space-between;align-items:center;margin-top:-6px;}
+    .remember-row{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--ink-muted);}
+    .remember-row input{accent-color:var(--em);}
+    .forgot-link{font-size:.78rem;color:var(--em);font-weight:600;cursor:pointer;}
+    .forgot-link:hover{text-decoration:underline;}
+    .submit-btn{
+      width:100%;padding:14px;border-radius:100px;
+      background:linear-gradient(135deg,var(--em-glow),var(--em-rich));
+      color:#fff;font-family:var(--fb);font-size:.95rem;font-weight:700;
+      border:none;cursor:pointer;transition:var(--tr);letter-spacing:.02em;
+      box-shadow:0 6px 22px rgba(5,150,105,.35);
+      display:flex;align-items:center;justify-content:center;gap:8px;
+    }
+    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(5,150,105,.45);}
+    .submit-btn .btn-arrow{transition:transform var(--tr);}
+    .submit-btn:hover .btn-arrow{transform:translateX(4px);}
+    .divider{display:flex;align-items:center;gap:12px;margin:4px 0;}
+    .divider-line{flex:1;height:1px;background:rgba(5,150,105,.12);}
+    .divider-text{font-size:.74rem;color:rgba(74,102,87,.5);font-weight:500;white-space:nowrap;}
+    .google-btn{
+      width:100%;padding:13px;border-radius:100px;
+      background:#fff;color:var(--ink);
+      border:1.5px solid rgba(5,150,105,.18);
+      font-family:var(--fb);font-size:.9rem;font-weight:600;cursor:pointer;transition:var(--tr);
+      display:flex;align-items:center;justify-content:center;gap:10px;
+    }
+    .google-btn:hover{border-color:var(--em);box-shadow:var(--sh-sm);transform:translateY(-1px);}
+    .google-icon{width:18px;height:18px;}
+    .signup-prompt{text-align:center;font-size:.82rem;color:var(--ink-muted);margin-top:8px;}
+    .signup-prompt a{color:var(--em);font-weight:600;cursor:pointer;}
+    .signup-prompt a:hover{text-decoration:underline;}
+    .form-error{font-size:.74rem;color:#DC2626;margin-top:2px;display:none;}
+    .form-input.error{border-color:#DC2626;}
+    .form-input.error:focus{box-shadow:0 0 0 3px rgba(220,38,38,.1);}
+
+    .toast{
+      position:fixed;bottom:24px;right:24px;z-index:10000;
+      background:var(--obsidian);color:#fff;
+      padding:14px 20px;border-radius:var(--r);
+      font-size:.84rem;font-weight:500;
+      display:flex;align-items:center;gap:10px;
+      box-shadow:var(--sh-lg);border:1px solid rgba(110,231,183,.2);
+      transform:translateY(80px);opacity:0;
+      transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .4s ease;
+    }
+    .toast.show{transform:translateY(0);opacity:1;}
+    .toast-dot{width:8px;height:8px;border-radius:50%;background:var(--em-glow);flex-shrink:0;}
+
+    .lp-signup{display:none;}
+    .lp-signup.active{display:block;}
+    .lp-signin{display:block;}
+    .lp-signin.hidden{display:none;}
+    .back-btn{display:flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;
+      color:var(--ink-muted);cursor:pointer;margin-bottom:24px;transition:color var(--tr);background:none;border:none;}
+    .back-btn:hover{color:var(--em);}
+
+    /* ─────────────────────────────────────────────────────────
+       SCROLL BAR + NAV
+    ───────────────────────────────────────────────────────── */
+    .sbar{position:fixed;top:0;left:0;height:3px;z-index:500;
+      background:linear-gradient(90deg,#6EE7B7,var(--em),var(--jewel));
+      width:0%;transition:width .08s linear;box-shadow:0 0 8px rgba(16,185,129,.6);}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:400;padding:16px 0;
+      transition:background var(--tr),box-shadow var(--tr),padding var(--tr);}
+    .nav.scrolled{background:rgba(253,250,243,.96);backdrop-filter:blur(20px);
+      box-shadow:0 1px 0 rgba(5,150,105,.1),0 4px 16px rgba(4,120,87,.06);padding:12px 0;}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:var(--fd);font-size:1.6rem;font-weight:700;
+      display:flex;align-items:center;gap:10px;color:var(--ink);letter-spacing:-.01em;}
+    .logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--em),var(--em-rich));
+      border-radius:11px;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 12px rgba(5,150,105,.35);}
+    .logo-mark svg{width:20px;height:20px;}
+    .logo em{color:var(--em);font-style:normal;}
+    .nav-links{display:flex;align-items:center;gap:2px;}
+    .nav-links a{padding:7px 15px;border-radius:8px;font-size:.87rem;font-weight:500;color:var(--ink-muted);transition:var(--tr);}
+    .nav-links a:hover{color:var(--ink);background:rgba(5,150,105,.07);}
+    .nav-cta{display:flex;align-items:center;gap:10px;}
+    .hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;border-radius:2px;transition:var(--tr);}
+    .mob-menu{display:none;position:fixed;inset:0;z-index:399;background:var(--ivory);padding:100px 24px 40px;flex-direction:column;gap:6px;}
+    .mob-menu.open{display:flex;}
+    .mob-menu a{padding:14px 16px;border-radius:12px;font-size:1.05rem;font-weight:500;color:var(--ink);border-bottom:1px solid rgba(5,150,105,.08);}
+    .mob-menu a:hover{background:var(--em-pale);color:var(--em);}
+
+    /* ─────────────────────────────────────────────────────────
+       HERO SECTION
+    ───────────────────────────────────────────────────────── */
+    .hero{padding:130px 0 80px;position:relative;overflow:hidden;}
+    .h-blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+    .hb1{width:600px;height:600px;top:-200px;left:-150px;background:radial-gradient(circle,rgba(16,185,129,.12),transparent 70%);}
+    .hb2{width:400px;height:400px;top:50px;right:-100px;background:radial-gradient(circle,rgba(212,168,71,.1),transparent 70%);}
+    .hb3{width:300px;height:300px;bottom:-100px;left:30%;background:radial-gradient(circle,rgba(5,150,105,.08),transparent 70%);}
+    .hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;
+      padding:6px 16px;border-radius:100px;
+      background:rgba(5,150,105,.09);border:1px solid rgba(5,150,105,.18);
+      font-size:.78rem;font-weight:600;color:var(--em);margin-bottom:20px;letter-spacing:.04em;}
+    .pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--em);
+      box-shadow:0 0 0 0 rgba(5,150,105,.4);animation:pulse-ring 2s infinite;}
+    @keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(5,150,105,.4)}70%{box-shadow:0 0 0 8px rgba(5,150,105,0)}100%{box-shadow:0 0 0 0 rgba(5,150,105,0)}}
+    .hero-title{font-family:var(--fd);font-size:clamp(3rem,6vw,4.8rem);font-weight:900;
+      line-height:1.02;letter-spacing:-.03em;color:var(--ink);margin-bottom:22px;}
+    .hero-title em{color:var(--em);font-style:italic;}
+    .gold-word{color:var(--gold);position:relative;display:inline-block;}
+    .gold-word::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;}
+    .hero-sub{font-size:1.06rem;color:var(--ink-muted);line-height:1.75;max-width:500px;margin-bottom:32px;}
+    .hero-acts{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px;}
+    .hero-stats{display:flex;align-items:center;gap:28px;}
+    .hs-n{font-family:var(--fd);font-size:1.65rem;font-weight:700;color:var(--ink);line-height:1;}
+    .hs-l{font-size:.74rem;color:var(--ink-muted);margin-top:3px;}
+    .hs-sep{width:1px;height:36px;background:rgba(5,150,105,.18);}
+
+    /* Hero visual */
+    .hero-vis{position:relative;}
+    .cstack{position:relative;height:380px;}
+    .fc{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);
+      padding:22px;box-shadow:var(--sh-md);position:absolute;}
+    .fc-main{width:300px;top:30px;left:30px;animation:flt 6s ease-in-out infinite;}
+    .fc-side-a{width:220px;bottom:20px;left:0;animation:flt 5s ease-in-out infinite .8s;z-index:2;}
+    .fc-side-b{width:200px;top:20px;right:0;animation:flt 5.5s ease-in-out infinite .4s;}
+    .av-r{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+    .av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;}
+    .av-lg{width:44px;height:44px;font-size:.82rem;}
+    .av-sm{width:32px;height:32px;font-size:.72rem;}
+    .fn{font-size:.88rem;font-weight:700;color:var(--ink);line-height:1.2;}
+    .fr{font-size:.72rem;color:var(--ink-muted);line-height:1.3;}
+    .chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:100px;font-size:.68rem;font-weight:600;margin:2px 3px 0 0;}
+    .ca{background:var(--em-pale);color:var(--em-rich);}
+    .cb{background:var(--gold-lt);color:var(--gold-rich);}
+    .cc{background:#EDE9FE;color:#5B21B6;}
+    .ml{font-size:.72rem;color:var(--ink-muted);}
+    .mw{flex:1;height:6px;background:#E2F7EE;border-radius:3px;overflow:hidden;}
+    .mb{height:100%;background:linear-gradient(90deg,var(--em),var(--em-glow));border-radius:3px;}
+
+    /* ─────────────────────────────────────────────────────────
+       TAGS
+    ───────────────────────────────────────────────────────── */
+    .tag{display:inline-block;padding:5px 14px;border-radius:100px;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+    .tag-dk{background:rgba(5,150,105,.1);color:var(--em-rich);border:1px solid rgba(5,150,105,.18);}
+    .tag-lt{background:rgba(110,231,183,.18);color:#065F46;border:1px solid rgba(110,231,183,.3);}
+    .tag-gold{background:rgba(212,168,71,.12);color:var(--gold-rich);border:1px solid rgba(212,168,71,.25);}
+
+    /* ─────────────────────────────────────────────────────────
+       SECTIONS - SHARED
+    ───────────────────────────────────────────────────────── */
+    .section-title{font-family:var(--fd);font-size:clamp(2rem,4.5vw,3rem);font-weight:700;
+      color:var(--ink);line-height:1.15;letter-spacing:-.02em;text-align:center;margin-bottom:12px;}
+    .section-title em{color:var(--em);font-style:italic;}
+    .section-sub{text-align:center;font-size:.97rem;color:var(--ink-muted);max-width:560px;margin:0 auto 48px;line-height:1.7;}
+
+    /* ─────────────────────────────────────────────────────────
+       ABOUT SECTION
+    ───────────────────────────────────────────────────────── */
+    .about{padding:100px 0;}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+    .about-kicker{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+    .ak-line{width:32px;height:2px;background:linear-gradient(90deg,var(--em),transparent);}
+    .about-text h2{font-family:var(--fd);font-size:clamp(2rem,4vw,2.8rem);font-weight:700;
+      color:var(--ink);line-height:1.2;letter-spacing:-.02em;margin-bottom:20px;}
+    .about-text p{font-size:.95rem;color:var(--ink-muted);line-height:1.8;margin-bottom:16px;}
+    .pillars{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px;}
+    .pill{padding:18px 16px;border-radius:var(--r);background:rgba(5,150,105,.06);
+      border:1px solid rgba(5,150,105,.1);transition:var(--tr);}
+    .pill:hover{background:rgba(5,150,105,.1);border-color:rgba(5,150,105,.2);transform:translateY(-2px);}
+    .pi{font-size:1.4rem;margin-bottom:8px;}
+    .pill h4{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .pill p{font-size:.78rem;color:var(--ink-muted);line-height:1.5;}
+    .about-vis{position:relative;display:flex;align-items:center;justify-content:center;}
+    .adot{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(5,150,105,.12),transparent 70%);}
+    .ao{position:absolute;border-radius:50%;border:1.5px dashed rgba(5,150,105,.15);}
+    .ao1{width:280px;height:280px;animation:sp-spin 20s linear infinite;}
+    .ao2{width:380px;height:380px;border-color:rgba(5,150,105,.08);animation:sp-spin 30s linear infinite reverse;}
+    .ac{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);
+      padding:32px;box-shadow:var(--sh-lg);position:relative;z-index:1;width:280px;text-align:center;}
+    .ac-big{font-family:var(--fd);font-size:3.5rem;font-weight:900;color:var(--em);line-height:1;}
+    .ac-lbl{font-size:.8rem;color:var(--ink-muted);margin-bottom:8px;margin-top:4px;line-height:1.4;}
+    .bar-track{height:6px;background:rgba(5,150,105,.08);border-radius:3px;overflow:hidden;}
+    .bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+
+    /* ─────────────────────────────────────────────────────────
+       FEATURES SECTION
+    ───────────────────────────────────────────────────────── */
+    .features{padding:100px 0;background:linear-gradient(180deg,rgba(232,244,236,.3),rgba(245,248,239,.6));}
+    .fg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:16px;}
+    .fcard{padding:28px;border-radius:var(--rl);background:var(--card);
+      border:1px solid var(--border-lt);box-shadow:var(--sh-sm);position:relative;
+      transition:var(--tr);overflow:hidden;}
+    .fcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--em),var(--em-glow));opacity:0;transition:var(--tr);}
+    .fcard:hover{transform:translateY(-4px);box-shadow:var(--sh-md);}
+    .fcard:hover::before{opacity:1;}
+    .fbadge{position:absolute;top:16px;right:16px;padding:3px 10px;border-radius:100px;
+      font-size:.65rem;font-weight:700;letter-spacing:.04em;}
+    .fb-pop{background:var(--em-pale);color:var(--em-rich);}
+    .fb-hot{background:var(--gold-lt);color:var(--gold-rich);}
+    .fi{font-size:2rem;margin-bottom:14px;}
+    .fcard h3{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:8px;}
+    .fcard p{font-size:.84rem;color:var(--ink-muted);line-height:1.65;}
+
+    /* ─────────────────────────────────────────────────────────
+       ALUMNI SPOTLIGHT (NEW)
+    ───────────────────────────────────────────────────────── */
+    .spotlight{padding:100px 0;}
+    .alumni-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:16px;}
+    .alumni-card{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);
+      padding:28px;box-shadow:var(--sh-sm);transition:var(--tr);position:relative;overflow:hidden;}
+    .alumni-card::after{content:'';position:absolute;inset:0;border-radius:var(--rl);
+      background:linear-gradient(135deg,rgba(5,150,105,.04),transparent 60%);pointer-events:none;}
+    .alumni-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);}
+    .alumni-avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;
+      justify-content:center;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:16px;
+      position:relative;}
+    .alumni-avatar::after{content:'';position:absolute;bottom:2px;right:2px;width:14px;height:14px;
+      border-radius:50%;background:#10B981;border:2.5px solid #fff;}
+    .alumni-name{font-family:var(--fd);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:3px;}
+    .alumni-role{font-size:.78rem;color:var(--ink-muted);margin-bottom:12px;}
+    .alumni-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+    .alumni-tag{padding:3px 10px;border-radius:100px;font-size:.68rem;font-weight:600;
+      background:var(--em-pale);color:var(--em-rich);}
+    .alumni-connect{width:100%;padding:10px;border-radius:10px;border:1.5px solid var(--border-lt);
+      background:transparent;font-family:var(--fb);font-size:.8rem;font-weight:600;
+      color:var(--em);cursor:pointer;transition:var(--tr);}
+    .alumni-connect:hover{background:var(--em);color:#fff;border-color:var(--em);}
+
+    /* ─────────────────────────────────────────────────────────
+       JOB BOARD PREVIEW (NEW)
+    ───────────────────────────────────────────────────────── */
+    .jobboard{padding:100px 0;background:linear-gradient(180deg,rgba(208,237,218,.2),rgba(232,244,236,.4));}
+    .job-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+    .job-card{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);
+      padding:24px;box-shadow:var(--sh-sm);transition:var(--tr);display:flex;gap:18px;align-items:flex-start;}
+    .job-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md);}
+    .job-icon{width:52px;height:52px;border-radius:14px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+      background:linear-gradient(135deg,var(--em-pale),var(--em-lt));}
+    .job-info{flex:1;}
+    .job-title{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:3px;}
+    .job-co{font-size:.8rem;color:var(--ink-muted);margin-bottom:10px;}
+    .job-meta{display:flex;flex-wrap:wrap;gap:8px;}
+    .job-badge{padding:3px 9px;border-radius:100px;font-size:.68rem;font-weight:600;}
+    .jb-type{background:var(--em-pale);color:var(--em-rich);}
+    .jb-loc{background:#F0F9FF;color:#0369A1;}
+    .jb-pay{background:var(--gold-lt);color:var(--gold-rich);}
+    .jb-new{background:#ECFDF5;color:#065F46;border:1px solid rgba(5,150,105,.2);}
+    .job-alumni{font-size:.72rem;color:var(--em);font-weight:600;margin-top:10px;
+      display:flex;align-items:center;gap:5px;}
+
+    /* ─────────────────────────────────────────────────────────
+       EVENTS SECTION (ENHANCED)
+    ───────────────────────────────────────────────────────── */
+    .events-sec{padding:100px 0;}
+    .events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:16px;}
+    .ev-card{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);
+      overflow:hidden;box-shadow:var(--sh-sm);transition:var(--tr);}
+    .ev-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);}
+    .ev-banner{height:90px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative;}
+    .ev-banner-em{background:linear-gradient(135deg,#023B2C,#059669);}
+    .ev-banner-gold{background:linear-gradient(135deg,#3D2B06,#D4A847);}
+    .ev-banner-blue{background:linear-gradient(135deg,#0C1A6B,#3B82F6);}
+    .ev-date-badge{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.18);
+      backdrop-filter:blur(8px);border-radius:8px;padding:5px 10px;text-align:center;}
+    .ev-date-d{font-family:var(--fd);font-size:1.2rem;font-weight:700;color:#fff;line-height:1;}
+    .ev-date-m{font-size:.64rem;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:.05em;text-transform:uppercase;}
+    .ev-body{padding:20px;}
+    .ev-tag{display:inline-block;padding:3px 9px;border-radius:100px;font-size:.65rem;
+      font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px;}
+    .ev-tag-web{background:var(--em-pale);color:var(--em-rich);}
+    .ev-tag-reunion{background:var(--gold-lt);color:var(--gold-rich);}
+    .ev-tag-talk{background:#F0F9FF;color:#0369A1;}
+    .ev-title{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .ev-meta{font-size:.76rem;color:var(--ink-muted);margin-bottom:14px;display:flex;gap:12px;align-items:center;}
+    .ev-rsvp{width:100%;padding:9px;border-radius:10px;
+      background:linear-gradient(135deg,var(--em-glow),var(--em-rich));
+      color:#fff;border:none;font-family:var(--fb);font-size:.8rem;font-weight:600;
+      cursor:pointer;transition:var(--tr);}
+    .ev-rsvp:hover{opacity:.88;transform:translateY(-1px);}
+
+    /* ─────────────────────────────────────────────────────────
+       ROLES SECTION
+    ───────────────────────────────────────────────────────── */
+    .roles{padding:100px 0;background:linear-gradient(180deg,rgba(232,244,236,.4),rgba(208,237,218,.3));}
+    .rtabs{display:flex;gap:8px;justify-content:center;margin-bottom:36px;
+      background:rgba(5,150,105,.06);border:1px solid rgba(5,150,105,.12);
+      padding:6px;border-radius:100px;width:fit-content;margin-left:auto;margin-right:auto;}
+    .rtab{padding:10px 28px;border-radius:100px;border:none;background:transparent;
+      font-family:var(--fb);font-size:.88rem;font-weight:600;color:var(--ink-muted);cursor:pointer;transition:var(--tr);}
+    .rtab.active{background:var(--em);color:#fff;box-shadow:0 4px 14px rgba(5,150,105,.3);}
+    .rtab:hover:not(.active){color:var(--em);}
+    .rpanel{display:none;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+    .rpanel.active{display:grid;}
+    .rfl{display:flex;flex-direction:column;gap:16px;}
+    .rfi{display:flex;gap:16px;align-items:flex-start;padding:18px;border-radius:var(--r);
+      background:rgba(5,150,105,.04);border:1px solid rgba(5,150,105,.08);transition:var(--tr);}
+    .rfi:hover{background:rgba(5,150,105,.08);transform:translateX(4px);}
+    .ric{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--em-pale),var(--em-lt));
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+    .rfi h4{font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .rfi p{font-size:.8rem;color:var(--ink-muted);line-height:1.5;}
+    .rvis{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);padding:32px;box-shadow:var(--sh-lg);}
+    .rvt{font-family:var(--fd);font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .rvs{font-size:.8rem;color:var(--ink-muted);margin-bottom:24px;}
+    .rvg{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .rvc{padding:16px;border-radius:var(--r);background:rgba(5,150,105,.05);border:1px solid rgba(5,150,105,.1);text-align:center;}
+    .rvn{font-family:var(--fd);font-size:1.8rem;font-weight:700;line-height:1;margin-bottom:4px;}
+    .rvl{font-size:.72rem;color:var(--ink-muted);}
+
+    /* ─────────────────────────────────────────────────────────
+       WORKFLOW SECTION
+    ───────────────────────────────────────────────────────── */
+    .workflow{padding:100px 0;background:linear-gradient(145deg,var(--jewel) 0%,var(--deep) 50%,var(--obsidian) 100%);position:relative;overflow:hidden;}
+    .workflow::before{content:'';position:absolute;inset:0;
+      background:radial-gradient(circle at 30% 50%,rgba(16,185,129,.12),transparent 60%),
+                 radial-gradient(circle at 70% 20%,rgba(212,168,71,.08),transparent 50%);pointer-events:none;}
+    .workflow .section-title{color:#fff;}
+    .workflow .section-sub{color:rgba(255,255,255,.55);}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:16px;position:relative;}
+    .steps::before{content:'';position:absolute;top:38px;left:12%;right:12%;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(110,231,183,.3),rgba(110,231,183,.3),transparent);z-index:0;}
+    .step{text-align:center;padding:28px 20px;border-radius:var(--rl);
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(12px);position:relative;z-index:1;transition:var(--tr);}
+    .step:hover{background:rgba(255,255,255,.09);transform:translateY(-4px);}
+    .sn{font-family:var(--fd);font-size:2.2rem;font-weight:900;
+      background:linear-gradient(135deg,#6EE7B7,#047857);-webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;line-height:1;margin-bottom:14px;}
+    .step h3{font-family:var(--fd);font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:8px;}
+    .step p{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6;}
+
+    /* ─────────────────────────────────────────────────────────
+       AI MATCH SECTION (NEW)
+    ───────────────────────────────────────────────────────── */
+    .ai-match{padding:100px 0;}
+    .ai-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+    .ai-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;
+      background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(5,150,105,.1));
+      border:1px solid rgba(124,58,237,.2);font-size:.74rem;font-weight:700;
+      color:#6D28D9;margin-bottom:20px;letter-spacing:.04em;}
+    .ai-badge svg{width:14px;height:14px;}
+    .ai-text h2{font-family:var(--fd);font-size:clamp(2rem,4vw,2.8rem);font-weight:700;
+      color:var(--ink);line-height:1.2;letter-spacing:-.02em;margin-bottom:16px;}
+    .ai-text h2 em{color:var(--em);}
+    .ai-text p{font-size:.95rem;color:var(--ink-muted);line-height:1.8;margin-bottom:24px;}
+    .ai-features{display:flex;flex-direction:column;gap:12px;}
+    .ai-feat{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;
+      border-radius:var(--r);background:rgba(5,150,105,.04);border:1px solid rgba(5,150,105,.08);}
+    .ai-feat-icon{width:36px;height:36px;border-radius:10px;
+      background:linear-gradient(135deg,var(--em-pale),var(--em-lt));
+      display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+    .ai-feat-title{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:2px;}
+    .ai-feat-desc{font-size:.78rem;color:var(--ink-muted);line-height:1.45;}
+    .ai-vis{position:relative;}
+    .ai-card{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);
+      padding:28px;box-shadow:var(--sh-lg);}
+    .ai-match-bar{display:flex;flex-direction:column;gap:12px;margin-top:8px;}
+    .ai-match-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;}
+    .ai-match-name{font-size:.82rem;font-weight:600;color:var(--ink);white-space:nowrap;}
+    .ai-match-track{height:8px;background:rgba(5,150,105,.1);border-radius:4px;overflow:hidden;}
+    .ai-match-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--em),var(--em-glow));
+      animation:fill-anim 2s ease both;}
+    @keyframes fill-anim{from{width:0}to{width:var(--fw)}}
+    .ai-match-pct{font-size:.78rem;font-weight:700;color:var(--em);}
+    .ai-match-user{display:flex;align-items:center;gap:10px;margin-bottom:20px;
+      padding:14px;border-radius:var(--r);background:rgba(5,150,105,.06);border:1px solid rgba(5,150,105,.1);}
+    .ai-match-user .av{width:36px;height:36px;font-size:.74rem;}
+    .ai-match-label{font-size:.74rem;color:var(--ink-muted);}
+    .ai-match-title{font-size:.88rem;font-weight:700;color:var(--ink);}
+
+    /* ─────────────────────────────────────────────────────────
+       TESTIMONIALS
+    ───────────────────────────────────────────────────────── */
+    .testimonials{padding:100px 0;background:linear-gradient(180deg,rgba(208,237,218,.2),rgba(248,250,253,.5));}
+    .tg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:20px;}
+    .tc{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);
+      padding:28px;box-shadow:var(--sh-sm);transition:var(--tr);}
+    .tc:hover{transform:translateY(-3px);box-shadow:var(--sh-md);}
+    .tc-feat{display:flex;gap:28px;align-items:flex-start;}
+    .tc-q{font-family:var(--fd);font-size:4rem;font-weight:700;color:var(--em);
+      line-height:.8;opacity:.4;flex-shrink:0;}
+    .gold-strip{background:linear-gradient(90deg,rgba(212,168,71,.12),rgba(212,168,71,.05));
+      border:1px solid rgba(212,168,71,.2);border-radius:8px;padding:6px 12px;
+      font-size:.72rem;font-weight:600;color:var(--gold-rich);margin-bottom:10px;}
+    .tstars{font-size:.88rem;color:var(--gold);margin-bottom:8px;letter-spacing:1px;}
+    .tq{font-size:.88rem;color:var(--ink-muted);line-height:1.7;margin-bottom:16px;font-style:italic;}
+    .ta{display:flex;align-items:center;gap:10px;}
+    .tav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;
+      justify-content:center;font-size:.72rem;font-weight:700;color:#fff;flex-shrink:0;}
+    .tn{font-size:.84rem;font-weight:700;color:var(--ink);}
+    .tr2{font-size:.72rem;color:var(--ink-muted);}
+
+    /* ─────────────────────────────────────────────────────────
+       STATS COUNTER SECTION (NEW)
+    ───────────────────────────────────────────────────────── */
+    .stats-sec{padding:80px 0;
+      background:linear-gradient(135deg,var(--obsidian),var(--jewel));position:relative;overflow:hidden;}
+    .stats-sec::before{content:'';position:absolute;inset:0;
+      background:radial-gradient(circle at 20% 50%,rgba(16,185,129,.15),transparent 55%),
+                 radial-gradient(circle at 80% 30%,rgba(212,168,71,.08),transparent 50%);pointer-events:none;}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;position:relative;z-index:1;}
+    .stat-item{text-align:center;padding:40px 24px;border-right:1px solid rgba(255,255,255,.06);}
+    .stat-item:last-child{border-right:none;}
+    .stat-number{font-family:var(--fd);font-size:clamp(2.5rem,5vw,3.5rem);font-weight:900;
+      line-height:1;background:linear-gradient(135deg,#6EE7B7,#047857);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+    .stat-label{font-size:.88rem;color:rgba(255,255,255,.5);letter-spacing:.03em;}
+    .stat-sub{font-size:.72rem;color:rgba(110,231,183,.5);margin-top:4px;}
+
+    /* ─────────────────────────────────────────────────────────
+       CTA SECTION
+    ───────────────────────────────────────────────────────── */
+    .cta-sec{padding:100px 0;}
+    .cta-box{border-radius:28px;padding:72px 64px;text-align:center;position:relative;overflow:hidden;
+      background:linear-gradient(145deg,var(--jewel),var(--obsidian));
+      border:1px solid rgba(110,231,183,.12);box-shadow:var(--sh-lg);}
+    .cta-box::before{content:'';position:absolute;inset:0;
+      background:radial-gradient(circle at 30% 40%,rgba(16,185,129,.18),transparent 60%),
+                 radial-gradient(circle at 70% 70%,rgba(212,168,71,.1),transparent 50%);pointer-events:none;}
+    .cta-inner{position:relative;z-index:1;}
+    .cta-title{font-family:var(--fd);font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;
+      color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:16px;}
+    .cta-title em{color:#6EE7B7;font-style:italic;}
+    .cta-sub{font-size:1.02rem;color:rgba(255,255,255,.55);max-width:500px;margin:0 auto 36px;line-height:1.7;}
+    .cta-acts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+    .cta-note{margin-top:22px;font-size:.78rem;color:rgba(255,255,255,.3);letter-spacing:.02em;}
+
+    /* ─────────────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────────────── */
+    .footer{background:var(--obsidian);padding:72px 0 32px;border-top:1px solid rgba(255,255,255,.05);}
+    .fg2{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:40px;margin-bottom:56px;}
+    .fb-brand p{font-size:.84rem;color:rgba(255,255,255,.38);line-height:1.75;max-width:280px;margin-bottom:22px;}
+    .slinks{display:flex;gap:8px;margin-top:16px;}
+    .slink{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.1);
+      display:flex;align-items:center;justify-content:center;transition:var(--tr);}
+    .slink:hover{background:rgba(110,231,183,.18);border-color:rgba(110,231,183,.3);transform:translateY(-2px);}
+    .slink svg{width:15px;height:15px;fill:rgba(255,255,255,.58);}
+    .fcol h5{font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:20px;}
+    .fcol ul{display:flex;flex-direction:column;gap:10px;}
+    .fcol ul a{font-size:.87rem;color:rgba(255,255,255,.45);transition:color var(--tr);}
+    .fcol ul a:hover{color:rgba(255,255,255,.88);}
+    .footer-newsletter{margin-top:24px;}
+    .footer-newsletter h5{font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:12px;}
+    .newsletter-form{display:flex;gap:8px;}
+    .newsletter-input{flex:1;padding:10px 14px;border-radius:10px;
+      background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+      color:#fff;font-family:var(--fb);font-size:.82rem;outline:none;transition:var(--tr);}
+    .newsletter-input::placeholder{color:rgba(255,255,255,.3);}
+    .newsletter-input:focus{border-color:var(--em);background:rgba(255,255,255,.1);}
+    .newsletter-btn{padding:10px 16px;border-radius:10px;
+      background:var(--em);color:#fff;border:none;
+      font-family:var(--fb);font-size:.8rem;font-weight:600;cursor:pointer;transition:var(--tr);}
+    .newsletter-btn:hover{background:var(--em-rich);}
+    .fbot{display:flex;align-items:center;justify-content:space-between;padding-top:28px;
+      border-top:1px solid rgba(255,255,255,.05);
+      font-size:.8rem;color:rgba(255,255,255,.32);flex-wrap:wrap;gap:12px;}
+    .fbot a{color:rgba(255,255,255,.32);transition:color var(--tr);}
+    .fbot a:hover{color:rgba(255,255,255,.7);}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+    .reveal.visible{opacity:1;transform:none;}
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s} .d4{transition-delay:.45s}
+
+    /* ─── MODAL ──────────────────────────────────────────────── */
+    .modal-overlay{position:fixed;inset:0;z-index:8000;background:rgba(1,31,24,.7);
+      backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;}
+    .modal-overlay.show{display:flex;}
+    .modal-box{background:var(--ivory);border-radius:24px;padding:40px;max-width:500px;width:100%;
+      margin:24px;box-shadow:var(--sh-lg);position:relative;animation:modal-in .35s cubic-bezier(.22,1,.36,1);}
+    @keyframes modal-in{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;
+      cursor:pointer;color:var(--ink-muted);font-size:1.2rem;padding:6px;border-radius:8px;transition:var(--tr);}
+    .modal-close:hover{background:var(--em-pale);color:var(--em);}
+    .modal-title{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .modal-sub{font-size:.85rem;color:var(--ink-muted);margin-bottom:24px;}
+
+    /* ─── SEARCH BAR (NEW) ───────────────────────────────────── */
+    .search-bar{background:var(--card);border:1px solid var(--border-lt);border-radius:100px;
+      padding:12px 20px;display:flex;align-items:center;gap:10px;
+      box-shadow:var(--sh-sm);transition:var(--tr);max-width:500px;margin:0 auto 48px;}
+    .search-bar:focus-within{border-color:var(--em);box-shadow:0 0 0 3px rgba(5,150,105,.1);}
+    .search-bar input{flex:1;border:none;background:transparent;font-family:var(--fb);
+      font-size:.9rem;color:var(--ink);outline:none;}
+    .search-bar input::placeholder{color:rgba(74,102,87,.4);}
+    .search-icon{color:var(--ink-muted);}
+    .search-btn{padding:7px 18px;border-radius:100px;background:var(--em);color:#fff;
+      border:none;font-family:var(--fb);font-size:.8rem;font-weight:600;cursor:pointer;transition:var(--tr);}
+    .search-btn:hover{background:var(--em-rich);}
+
+    /* Responsive */
+    @media(max-width:1024px){
+      .lp-left{display:none;} .lp-right{width:100%;padding:60px 40px;}
+      .hero-inner{grid-template-columns:1fr;} .hero-vis{display:none;}
+      .about-grid{grid-template-columns:1fr;} .fg{grid-template-columns:1fr 1fr;}
+      .fg2{grid-template-columns:1fr 1fr;}
+      .tg{grid-template-columns:1fr;} .tc-feat{flex-direction:column;}
+      .ai-inner{grid-template-columns:1fr;}
+      .alumni-grid{grid-template-columns:1fr 1fr;}
+      .job-grid{grid-template-columns:1fr;}
+      .events-grid{grid-template-columns:1fr 1fr;}
+      .stats-grid{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:768px){
+      .nav-links,.nav-cta{display:none;} .hamburger{display:block;}
+      .hero{padding:100px 0 60px;} .fg{grid-template-columns:1fr;}
+      .tg{grid-template-columns:1fr;} .tc-feat{flex-direction:column;}
+      .steps{grid-template-columns:1fr 1fr;} .steps::before{display:none;}
+      .rpanel.active{grid-template-columns:1fr;}
+      .cta-box{padding:48px 28px;} .fg2{grid-template-columns:1fr;}
+      .form-row{grid-template-columns:1fr;}
+      .alumni-grid{grid-template-columns:1fr;}
+      .events-grid{grid-template-columns:1fr;}
+    }
+    @media(max-width:480px){
+      .steps{grid-template-columns:1fr;} .hero-stats{flex-direction:column;gap:18px;}
+      .pillars{grid-template-columns:1fr;} .stats-grid{grid-template-columns:1fr 1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     SPLASH SCREEN
+════════════════════════════════════════════════ -->
+<div id="splash">
+  <div class="sp-glow"></div>
+  <div class="sp-ring sp-r1"></div>
+  <div class="sp-ring sp-r2"></div>
+  <div class="sp-ring sp-r3"></div>
+  <div class="sp-dot sd1"></div><div class="sp-dot sd2"></div><div class="sp-dot sd3"></div>
+  <div class="sp-dot sd4"></div><div class="sp-dot sd5"></div><div class="sp-dot sd6"></div>
+  <div class="sp-center">
+    <div class="sp-logo-mark">
+      <svg viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="5" r="3" fill="white"/>
+        <circle cx="4" cy="15" r="2.5" fill="white" opacity=".75"/>
+        <circle cx="16" cy="15" r="2.5" fill="white" opacity=".75"/>
+        <line x1="10" y1="8" x2="4" y2="12.5" stroke="white" stroke-width="1.6"/>
+        <line x1="10" y1="8" x2="16" y2="12.5" stroke="white" stroke-width="1.6"/>
+      </svg>
+    </div>
+    <div class="sp-brand">Roots<em>Bridge</em></div>
+    <div class="sp-line"></div>
+    <p class="sp-quote">Where <strong>yesterday's graduate</strong><br/>becomes <strong>tomorrow's mentor</strong></p>
+  </div>
+  <button class="sp-skip" onclick="dismissSplash()">skip ›</button>
+  <div class="sp-progress"><div class="sp-bar"></div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     LOGIN PAGE
+════════════════════════════════════════════════ -->
+<div id="page-login" class="page active" style="display:flex;">
+
+  <!-- Left: Brand panel -->
+  <div class="lp-left">
+    <div class="lp-left-glow"></div>
+    <div class="lp-left-glow2"></div>
+    <div class="lp-left-ring lr1"></div>
+    <div class="lp-left-ring lr2"></div>
+
+    <div class="lp-brand">
+      <div class="lp-logo">
+        <div class="lp-logo-mark">
+          <svg viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="5" r="3" fill="white"/>
+            <circle cx="4" cy="15" r="2.5" fill="white" opacity=".75"/>
+            <circle cx="16" cy="15" r="2.5" fill="white" opacity=".75"/>
+            <line x1="10" y1="8" x2="4" y2="12.5" stroke="white" stroke-width="1.6"/>
+            <line x1="10" y1="8" x2="16" y2="12.5" stroke="white" stroke-width="1.6"/>
+          </svg>
+        </div>
+        Roots<em>Bridge</em>
+      </div>
+      <div class="lp-hero-text">
+        <h2>Where roots<br/>become <em>bridges</em></h2>
+        <p>Join thousands of alumni and students building meaningful careers through mentorship, networking, and shared opportunities.</p>
+      </div>
+    </div>
+
+    <!-- Floating testimonial -->
+    <div class="lp-tcard">
+      <p class="lp-tcard-q">"RootsBridge helped me land my first job at Google through an alumnus I'd never have met otherwise."</p>
+      <div class="lp-tcard-a">
+        <div class="lp-tcard-av">AK</div>
+        <div>
+          <div class="lp-tcard-name">Arjun Krishnan</div>
+          <div class="lp-tcard-role">SWE @ Google · Class of 2022</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lp-stats">
+      <div class="lp-stat"><div class="lp-stat-n">12K+</div><div class="lp-stat-l">Alumni</div></div>
+      <div class="lp-stat"><div class="lp-stat-n">840+</div><div class="lp-stat-l">Mentorships</div></div>
+      <div class="lp-stat"><div class="lp-stat-n">3.4K</div><div class="lp-stat-l">Students</div></div>
+    </div>
+  </div>
+
+  <!-- Right: Auth form -->
+  <div class="lp-right">
+    <div class="lp-right-inner">
+
+      <!-- Role selector -->
+      <div class="role-select">
+        <button class="role-btn active" onclick="setRole(this,'alumni')">🎓 Alumni</button>
+        <button class="role-btn" onclick="setRole(this,'student')">📚 Student</button>
+        <button class="role-btn" onclick="setRole(this,'admin')">⚙️ Admin</button>
+      </div>
+
+      <!-- Sign In Panel -->
+      <div class="lp-signin" id="signin-panel">
+        <div class="lp-welcome">Welcome back</div>
+        <p class="lp-sub">New to RootsBridge? <a onclick="showSignup()">Create an account →</a></p>
+
+        <div class="lp-form">
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" id="si-email" placeholder="you@institution.edu"/>
+            <span class="form-error" id="si-email-err">Please enter a valid email.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="password-wrap">
+              <input type="password" class="form-input" id="si-pass" placeholder="Enter your password" style="width:100%;"/>
+              <button class="eye-btn" onclick="togglePass('si-pass',this)" type="button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="form-error" id="si-pass-err">Password must be at least 6 characters.</span>
+          </div>
+          <div class="form-helper">
+            <label class="remember-row"><input type="checkbox"/> Remember me</label>
+            <span class="forgot-link" onclick="showForgotModal()">Forgot password?</span>
+          </div>
+          <button class="submit-btn" onclick="handleLogin()">
+            Sign In <span class="btn-arrow">→</span>
+          </button>
+          <div class="divider"><div class="divider-line"></div><span class="divider-text">or continue with</span><div class="divider-line"></div></div>
+          <button class="google-btn" onclick="handleGoogleLogin()">
+            <svg class="google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
+        </div>
+      </div>
+
+      <!-- Sign Up Panel -->
+      <div class="lp-signup" id="signup-panel">
+        <button class="back-btn" onclick="showSignin()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Back to Sign In
+        </button>
+        <div class="lp-welcome">Create account</div>
+        <p class="lp-sub" style="margin-bottom:24px;">Already have one? <a onclick="showSignin()">Sign in →</a></p>
+
+        <div class="lp-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-input" placeholder="Arjun"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-input" placeholder="Kumar"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="you@institution.edu"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Institution / College</label>
+            <input type="text" class="form-input" placeholder="PSG College of Technology"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="year-label">Graduation Year</label>
+            <input type="text" class="form-input" id="grad-year" placeholder="2024"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="password-wrap">
+              <input type="password" class="form-input" id="su-pass" placeholder="Create a password" style="width:100%;"/>
+              <button class="eye-btn" onclick="togglePass('su-pass',this)" type="button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div style="margin-top:8px;">
+              <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--ink-muted);margin-bottom:4px;">
+                <span>Password strength</span><span id="str-label" style="font-weight:600;">—</span>
+              </div>
+              <div style="height:4px;background:#D1FAE5;border-radius:4px;overflow:hidden;">
+                <div id="str-bar" style="height:100%;width:0%;border-radius:4px;transition:width .3s,background .3s;"></div>
+              </div>
+            </div>
+          </div>
+          <button class="submit-btn" onclick="handleSignup()">
+            Create Account <span class="btn-arrow">→</span>
+          </button>
+          <div class="divider"><div class="divider-line"></div><span class="divider-text">or</span><div class="divider-line"></div></div>
+          <button class="google-btn" onclick="handleGoogleLogin()">
+            <svg class="google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Sign up with Google
+          </button>
+          <p style="font-size:.72rem;color:var(--ink-muted);text-align:center;margin-top:4px;">By creating an account, you agree to our <a href="#" style="color:var(--em);">Terms</a> & <a href="#" style="color:var(--em);">Privacy Policy</a>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     LANDING PAGE
+════════════════════════════════════════════════ -->
+<div id="page-landing" class="page">
+
+  <div class="sbar" id="sb"></div>
+
+  <!-- NAV -->
+  <nav class="nav" id="nb">
+    <div class="container nav-inner">
+      <a href="#" class="logo" onclick="goToLanding()">
+        <div class="logo-mark">
+          <svg viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="5" r="3" fill="white"/>
+            <circle cx="4" cy="15" r="2.5" fill="white" opacity=".7"/>
+            <circle cx="16" cy="15" r="2.5" fill="white" opacity=".7"/>
+            <line x1="10" y1="8" x2="4" y2="12.5" stroke="white" stroke-width="1.6"/>
+            <line x1="10" y1="8" x2="16" y2="12.5" stroke="white" stroke-width="1.6"/>
+          </svg>
+        </div>
+        Roots<em>Bridge</em>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#alumni-section">Alumni</a></li>
+        <li><a href="#mentorship">Mentorship</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="#" class="btn btn-ivory" style="padding:9px 20px;font-size:.85rem;" onclick="goToLogin()">Log In</a>
+        <a href="#" class="btn btn-em" style="padding:9px 20px;font-size:.85rem;" onclick="goToSignup()">Join Free</a>
+      </div>
+      <button class="hamburger" id="hbg"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mob-menu" id="mm">
+    <a href="#home">Home</a><a href="#features">Features</a><a href="#alumni-section">Alumni</a>
+    <a href="#mentorship">Mentorship</a><a href="#events">Events</a><a href="#contact">Contact</a>
+    <a href="#" style="margin-top:12px;" onclick="goToLogin()">Log In</a>
+    <a href="#" class="btn btn-em" style="border-radius:12px;justify-content:center;margin-top:8px;" onclick="goToSignup()">Join Free →</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="h-blob hb1"></div><div class="h-blob hb2"></div><div class="h-blob hb3"></div>
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-eyebrow"><span class="pulse-dot"></span>Now live — 12,000+ alumni connected</div>
+        <h1 class="hero-title">Connecting<br/><em>Generations</em><br/>of <span class="gold-word">Talent</span></h1>
+        <p class="hero-sub">Empowering students and alumni through mentorship, networking, and career opportunities. One platform. Endless bridges.</p>
+        <div class="hero-acts">
+          <a href="#" class="btn btn-em" onclick="goToSignup()">Join the Network →</a>
+          <a href="#" class="btn btn-ivory" onclick="showAlumniModal()">Explore Alumni</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hs-n">12K+</div><div class="hs-l">Alumni Connected</div></div>
+          <div class="hs-sep"></div>
+          <div><div class="hs-n">3,400+</div><div class="hs-l">Active Students</div></div>
+          <div class="hs-sep"></div>
+          <div><div class="hs-n">840+</div><div class="hs-l">Mentorships Formed</div></div>
+        </div>
+      </div>
+      <div class="hero-vis">
+        <div class="cstack">
+          <div class="fc fc-main">
+            <div class="av-r">
+              <div class="av av-lg" style="background:linear-gradient(135deg,#059669,#10B981);">AK</div>
+              <div><div class="fn">Arjun Krishnamurthy</div><div class="fr">Senior Engineer @ Google · Class of 2018</div></div>
+              <div style="margin-left:auto;"><div style="width:9px;height:9px;background:#10B981;border-radius:50%;border:2px solid #fff;box-shadow:0 0 6px rgba(16,185,129,.6);"></div></div>
+            </div>
+            <div><span class="chip ca">Machine Learning</span><span class="chip cb">Open to Mentor</span><span class="chip cc">Python</span></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:18px;">
+              <span class="ml">Profile Strength</span>
+              <div class="mw"><div class="mb" style="width:88%;"></div></div>
+              <span class="ml" style="color:var(--em);font-weight:600;">88%</span>
+            </div>
+          </div>
+          <div class="fc fc-side-a">
+            <div style="font-size:.68rem;color:var(--ink-muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">New Request</div>
+            <div class="av-r">
+              <div class="av av-sm" style="background:linear-gradient(135deg,#047857,#10B981);">PS</div>
+              <div><div class="fn" style="font-size:.8rem;">Priya Sundar</div><div class="fr" style="font-size:.72rem;">Wants career guidance</div></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+              <button style="flex:1;padding:8px;background:var(--em);color:#fff;border:none;border-radius:8px;font-size:.74rem;font-weight:600;cursor:pointer;" onclick="showToast('✅ Mentorship request accepted!')">Accept</button>
+              <button style="flex:1;padding:8px;background:#F0FAF5;border:1px solid rgba(5,150,105,.2);border-radius:8px;font-size:.74rem;font-weight:600;cursor:pointer;">Later</button>
+            </div>
+          </div>
+          <div class="fc fc-side-b">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div><div style="font-size:.78rem;font-weight:700;margin-bottom:2px;">Frontend Intern</div><div style="font-size:.72rem;color:var(--ink-muted);">Stripe · Remote</div></div>
+              <span class="chip cb" style="font-size:.64rem;">New</span>
+            </div>
+            <div style="font-size:.72rem;color:var(--ink-muted);margin-top:8px;">₹40,000/mo · 6 months</div>
+            <div style="margin-top:10px;font-size:.72rem;font-weight:600;color:var(--gold);">⭐ 14 alumni applicants</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="alumni">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="about-kicker"><div class="ak-line"></div><span class="tag tag-dk">Our Mission</span></div>
+          <h2>Bridging the gap between <em style="color:var(--em);font-style:italic;">past</em> and <em style="color:var(--gold);font-style:italic;">future</em> talent</h2>
+          <p>RootsBridge was born from a simple belief: the most powerful career advice doesn't come from job boards — it comes from someone who walked the same halls, faced the same choices, and found a way forward.</p>
+          <p>We've built a platform where institutional memory thrives, where senior alumni mentor the next generation, and where opportunities flow back to the community that shaped everyone on it.</p>
+          <div class="pillars">
+            <div class="pill reveal d1"><div class="pi">🌱</div><h4>Community First</h4><p>Built on trust, shared roots, and mutual growth.</p></div>
+            <div class="pill reveal d2"><div class="pi">🎯</div><h4>Career-Focused</h4><p>Real opportunities, real guidance, real outcomes.</p></div>
+            <div class="pill reveal d3"><div class="pi">🤝</div><h4>Verified Alumni</h4><p>Every profile tied to institutional credentials.</p></div>
+            <div class="pill reveal d4"><div class="pi">📊</div><h4>Data-Driven</h4><p>Intelligent matching based on skills and interests.</p></div>
+          </div>
+        </div>
+        <div class="about-vis reveal d2">
+          <div class="adot"></div><div class="ao ao1"></div><div class="ao ao2"></div>
+          <div class="ac">
+            <div class="ac-big">96%</div>
+            <div class="ac-lbl">users found value within 30 days</div>
+            <div style="width:100%;margin-top:18px;display:flex;flex-direction:column;gap:10px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:.74rem;margin-bottom:4px;"><span style="color:var(--ink-muted);">Mentorship Match</span><span style="font-weight:700;color:var(--em);">92%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:92%;background:linear-gradient(90deg,#10B981,#047857);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:.74rem;margin-bottom:4px;"><span style="color:var(--ink-muted);">Job Placement</span><span style="font-weight:700;color:var(--gold);">78%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:78%;background:linear-gradient(90deg,#D4A847,#A07820);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:.74rem;margin-bottom:4px;"><span style="color:var(--ink-muted);">Alumni Retention</span><span style="font-weight:700;color:#6D28D9;">85%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:85%;background:linear-gradient(90deg,#A78BFA,#6D28D9);"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:16px;" class="reveal"><span class="tag tag-dk">Platform Features</span></div>
+      <h2 class="section-title reveal">Everything you need to<br/>build lasting connections</h2>
+      <p class="section-sub reveal">Six powerful modules designed to support every stage of the alumni–student relationship.</p>
+      <div class="fg">
+        <div class="fcard reveal d1"><span class="fbadge fb-pop">Popular</span><div class="fi">🧑‍💼</div><h3>Alumni Profiles</h3><p>Detailed professional profiles showcasing career journeys, skills, and milestones. Search by industry, company, or graduation year.</p></div>
+        <div class="fcard reveal d2"><div class="fi">🔗</div><h3>Smart Networking</h3><p>An intelligent system connecting students and alumni based on career interests, departments, and skills automatically.</p></div>
+        <div class="fcard reveal d3"><span class="fbadge fb-hot">🏆 Top Rated</span><div class="fi">🎓</div><h3>Mentorship Hub</h3><p>Structured mentorship with milestone tracking, session notes, and progress dashboards for both mentors and mentees.</p></div>
+        <div class="fcard reveal d1"><div class="fi">💼</div><h3>Job & Internship Board</h3><p>Alumni post exclusive opportunities. Students get early access before openings hit public job boards.</p></div>
+        <div class="fcard reveal d2"><div class="fi">🗓️</div><h3>Events & Reunions</h3><p>Organize reunions, webinars, workshops with built-in RSVP tracking and reminder automation.</p></div>
+        <div class="fcard reveal d3"><div class="fi">💬</div><h3>Messaging System</h3><p>Direct messaging, group chats, and institutional announcements — one inbox, full notification controls.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       NEW: ALUMNI SPOTLIGHT SECTION
+  ══════════════════════════════════════════════ -->
+  <section class="spotlight" id="alumni-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:16px;" class="reveal"><span class="tag tag-gold">Alumni Spotlight</span></div>
+      <h2 class="section-title reveal">Meet our featured <em>alumni</em></h2>
+      <p class="section-sub reveal">Discover accomplished alumni who are actively mentoring and building the next generation.</p>
+      <div class="search-bar reveal">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search alumni by name, company, or skill…" oninput="filterAlumni(this.value)"/>
+        <button class="search-btn">Search</button>
+      </div>
+      <div class="alumni-grid" id="alumni-grid">
+        <div class="alumni-card reveal d1">
+          <div class="alumni-avatar" style="background:linear-gradient(135deg,#059669,#10B981);">AK</div>
+          <div class="alumni-name">Arjun Krishnamurthy</div>
+          <div class="alumni-role">Sr. Engineer @ Google · Class of 2018</div>
+          <div class="alumni-tags"><span class="alumni-tag">Machine Learning</span><span class="alumni-tag">Python</span><span class="alumni-tag">Open to Mentor</span></div>
+          <button class="alumni-connect" onclick="showToast('📩 Connection request sent to Arjun!')">Connect →</button>
+        </div>
+        <div class="alumni-card reveal d2">
+          <div class="alumni-avatar" style="background:linear-gradient(135deg,#D4A847,#A07820);">SM</div>
+          <div class="alumni-name">Sowmya Mahesh</div>
+          <div class="alumni-role">Product Manager @ Flipkart · Class of 2019</div>
+          <div class="alumni-tags"><span class="alumni-tag">Product Strategy</span><span class="alumni-tag">UX</span><span class="alumni-tag">Mentoring</span></div>
+          <button class="alumni-connect" onclick="showToast('📩 Connection request sent to Sowmya!')">Connect →</button>
+        </div>
+        <div class="alumni-card reveal d3">
+          <div class="alumni-avatar" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8);">RV</div>
+          <div class="alumni-name">Rahul Venkatesh</div>
+          <div class="alumni-role">Founder, TechEdge · Class of 2015</div>
+          <div class="alumni-tags"><span class="alumni-tag">Entrepreneurship</span><span class="alumni-tag">Fundraising</span><span class="alumni-tag">B2B SaaS</span></div>
+          <button class="alumni-connect" onclick="showToast('📩 Connection request sent to Rahul!')">Connect →</button>
+        </div>
+        <div class="alumni-card reveal d1">
+          <div class="alumni-avatar" style="background:linear-gradient(135deg,#EC4899,#BE185D);">PK</div>
+          <div class="alumni-name">Priya Kannan</div>
+          <div class="alumni-role">Data Scientist @ Microsoft · Class of 2020</div>
+          <div class="alumni-tags"><span class="alumni-tag">Data Science</span><span class="alumni-tag">NLP</span><span class="alumni-tag">R / Python</span></div>
+          <button class="alumni-connect" onclick="showToast('📩 Connection request sent to Priya!')">Connect →</button>
+        </div>
+        <div class="alumni-card reveal d2">
+          <div class="alumni-avatar" style="background:linear-gradient(135deg,#F97316,#C2410C);">DM</div>
+          <div class="alumni-name">Deepak Murali</div>
+          <div class="alumni-role">DevOps Lead @ Atlassian · Class of 2017</div>
+          <div class="alumni-tags"><span class="alumni-tag">DevOps</span><span class="alumni-tag">Kubernetes</span><span class="alumni-tag">Cloud</span></div>
+          <button class="alumni-connect" onclick="showToast('📩 Connection request sent to Deepak!')">Connect →</button>
+        </div>
+        <div class="alumni-card reveal d3">
+          <div class="alumni-avatar" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9);">NG</div>
+          <div class="alumni-name">Nithya Gopalan</div>
+          <div class="alumni-role">UX Designer @ Adobe · Class of 2021</div>
+          <div class="alumni-tags"><span class="alumni-tag">UI/UX Design</span><span class="alumni-tag">Figma</span><span class="alumni-tag">Design Systems</span></div>
+          <button class="alumni-connect" onclick="showToast('📩 Connection request sent to Nithya!')">Connect →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       NEW: JOB BOARD PREVIEW
+  ══════════════════════════════════════════════ -->
+  <section class="jobboard" id="jobs">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:16px;" class="reveal"><span class="tag tag-dk">Alumni-Exclusive Jobs</span></div>
+      <h2 class="section-title reveal">Opportunities <em>just for</em> your network</h2>
+      <p class="section-sub reveal">Posted by alumni for students — before they hit any public job board.</p>
+      <div class="job-grid">
+        <div class="job-card reveal d1">
+          <div class="job-icon">🏢</div>
+          <div class="job-info">
+            <div class="job-title">Software Engineer – Frontend</div>
+            <div class="job-co">Google India · Bangalore</div>
+            <div class="job-meta">
+              <span class="job-badge jb-type">Full-time</span>
+              <span class="job-badge jb-loc">Hybrid</span>
+              <span class="job-badge jb-pay">₹18–24 LPA</span>
+              <span class="job-badge jb-new">✨ New</span>
+            </div>
+            <div class="job-alumni">👤 Posted by Arjun Krishnamurthy · Class of 2018</div>
+          </div>
+        </div>
+        <div class="job-card reveal d2">
+          <div class="job-icon">📱</div>
+          <div class="job-info">
+            <div class="job-title">Product Manager Intern</div>
+            <div class="job-co">Flipkart · Chennai</div>
+            <div class="job-meta">
+              <span class="job-badge jb-type">Internship</span>
+              <span class="job-badge jb-loc">On-site</span>
+              <span class="job-badge jb-pay">₹50K/mo</span>
+            </div>
+            <div class="job-alumni">👤 Posted by Sowmya Mahesh · Class of 2019</div>
+          </div>
+        </div>
+        <div class="job-card reveal d3">
+          <div class="job-icon">🤖</div>
+          <div class="job-info">
+            <div class="job-title">ML Research Engineer</div>
+            <div class="job-co">Microsoft · Hyderabad</div>
+            <div class="job-meta">
+              <span class="job-badge jb-type">Full-time</span>
+              <span class="job-badge jb-loc">Remote</span>
+              <span class="job-badge jb-pay">₹22–30 LPA</span>
+              <span class="job-badge jb-new">✨ New</span>
+            </div>
+            <div class="job-alumni">👤 Posted by Priya Kannan · Class of 2020</div>
+          </div>
+        </div>
+        <div class="job-card reveal d4">
+          <div class="job-icon">☁️</div>
+          <div class="job-info">
+            <div class="job-title">DevOps Engineer</div>
+            <div class="job-co">Atlassian · Pune</div>
+            <div class="job-meta">
+              <span class="job-badge jb-type">Full-time</span>
+              <span class="job-badge jb-loc">Hybrid</span>
+              <span class="job-badge jb-pay">₹16–20 LPA</span>
+            </div>
+            <div class="job-alumni">👤 Posted by Deepak Murali · Class of 2017</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:36px;" class="reveal">
+        <a href="#" class="btn btn-em" onclick="showToast('🔐 Sign in to view all 240+ jobs')">View All 240+ Opportunities →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       NEW: AI MATCH ENGINE SECTION
+  ══════════════════════════════════════════════ -->
+  <section class="ai-match" id="mentorship">
+    <div class="container">
+      <div class="ai-inner">
+        <div class="ai-text reveal">
+          <div class="ai-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            AI-Powered Matching
+          </div>
+          <h2>Smart matching, <em>real results</em></h2>
+          <p>Our intelligent engine analyses your skills, goals, department, and interests to surface the alumni who'll genuinely move the needle on your career.</p>
+          <div class="ai-features">
+            <div class="ai-feat">
+              <div class="ai-feat-icon">🎯</div>
+              <div><div class="ai-feat-title">Skill-Based Pairing</div><div class="ai-feat-desc">Matches based on technical skills and career goals, not just name recognition.</div></div>
+            </div>
+            <div class="ai-feat">
+              <div class="ai-feat-icon">📈</div>
+              <div><div class="ai-feat-title">Career Trajectory Analysis</div><div class="ai-feat-desc">Connects you with alumni who followed a similar trajectory to where you want to go.</div></div>
+            </div>
+            <div class="ai-feat">
+              <div class="ai-feat-icon">⚡</div>
+              <div><div class="ai-feat-title">Instant Availability Check</div><div class="ai-feat-desc">Only surfaces mentors who've indicated they're currently open to taking new mentees.</div></div>
+            </div>
+          </div>
+          <div style="margin-top:28px;">
+            <a href="#" class="btn btn-em" onclick="showToast('🚀 Launching AI match — please sign in first!')">Try AI Match Engine →</a>
+          </div>
+        </div>
+        <div class="ai-vis reveal d2">
+          <div class="ai-card">
+            <div class="ai-match-user">
+              <div class="av av-sm" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8);">YO</div>
+              <div>
+                <div class="ai-match-label">Matching for</div>
+                <div class="ai-match-title">You · 3rd Year CSE</div>
+              </div>
+              <div style="margin-left:auto;font-size:.72rem;color:var(--em);font-weight:600;">Analysing…</div>
+            </div>
+            <div style="font-size:.74rem;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">Top Alumni Matches</div>
+            <div class="ai-match-bar">
+              <div class="ai-match-item">
+                <span class="ai-match-name">Arjun K.</span>
+                <div class="ai-match-track"><div class="ai-match-fill" style="--fw:94%;width:94%;"></div></div>
+                <span class="ai-match-pct">94%</span>
+              </div>
+              <div class="ai-match-item">
+                <span class="ai-match-name">Priya K.</span>
+                <div class="ai-match-track"><div class="ai-match-fill" style="--fw:88%;width:88%;"></div></div>
+                <span class="ai-match-pct">88%</span>
+              </div>
+              <div class="ai-match-item">
+                <span class="ai-match-name">Deepak M.</span>
+                <div class="ai-match-track"><div class="ai-match-fill" style="--fw:76%;width:76%;"></div></div>
+                <span class="ai-match-pct">76%</span>
+              </div>
+              <div class="ai-match-item">
+                <span class="ai-match-name">Nithya G.</span>
+                <div class="ai-match-track"><div class="ai-match-fill" style="--fw:71%;width:71%;"></div></div>
+                <span class="ai-match-pct">71%</span>
+              </div>
+            </div>
+            <button style="width:100%;margin-top:18px;padding:11px;border-radius:10px;
+              background:linear-gradient(135deg,var(--em-glow),var(--em-rich));
+              color:#fff;border:none;font-family:var(--fb);font-size:.84rem;font-weight:600;
+              cursor:pointer;transition:var(--tr);" 
+              onclick="showToast('🎯 Connecting you with your top matches!')">
+              Request Top 3 Mentors →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROLES -->
+  <section class="roles">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:16px;" class="reveal"><span class="tag tag-dk">Role-Based Access</span></div>
+      <h2 class="section-title reveal">Built for everyone<br/>in your institution</h2>
+      <p class="section-sub reveal">Different dashboards, same powerful platform.</p>
+      <div class="rtabs">
+        <button class="rtab active" onclick="sr('a',this)">🎓 Alumni</button>
+        <button class="rtab" onclick="sr('s',this)">📚 Students</button>
+        <button class="rtab" onclick="sr('ad',this)">⚙️ Admin</button>
+      </div>
+      <div class="rpanel active" id="rp-a">
+        <div class="rfl">
+          <div class="rfi reveal"><div class="ric">👤</div><div><h4>Professional Profiles</h4><p>Showcase your career journey with a rich, verifiable profile.</p></div></div>
+          <div class="rfi reveal d1"><div class="ric">📋</div><div><h4>Post Opportunities</h4><p>Share exclusive job and internship openings with students.</p></div></div>
+          <div class="rfi reveal d2"><div class="ric">🤝</div><div><h4>Mentor Students</h4><p>Accept requests and guide the next generation with structured sessions.</p></div></div>
+          <div class="rfi reveal d3"><div class="ric">🎉</div><div><h4>Host Reunion Events</h4><p>Create batch reunions, webinars, and networking events.</p></div></div>
+        </div>
+        <div class="rvis reveal d2">
+          <div class="rvt">Alumni Dashboard</div><div class="rvs">Your impact at a glance</div>
+          <div class="rvg">
+            <div class="rvc"><div class="rvn" style="color:var(--em);">4</div><div class="rvl">Active Mentees</div></div>
+            <div class="rvc"><div class="rvn" style="color:var(--gold);">12</div><div class="rvl">Jobs Posted</div></div>
+            <div class="rvc"><div class="rvn" style="color:var(--em-rich);">89</div><div class="rvl">Network Size</div></div>
+            <div class="rvc"><div class="rvn" style="color:#10B981;">2</div><div class="rvl">Events Hosted</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="rpanel" id="rp-s">
+        <div class="rfl">
+          <div class="rfi reveal"><div class="ric">🔍</div><div><h4>Explore Alumni Directory</h4><p>Browse alumni filtered by industry, company, batch, or skill.</p></div></div>
+          <div class="rfi reveal d1"><div class="ric">📝</div><div><h4>Apply for Opportunities</h4><p>Access alumni-posted jobs and internships before they go public.</p></div></div>
+          <div class="rfi reveal d2"><div class="ric">✋</div><div><h4>Request Mentorship</h4><p>Send structured requests to alumni aligned with your goals.</p></div></div>
+          <div class="rfi reveal d3"><div class="ric">🌐</div><div><h4>Join Networking Sessions</h4><p>Attend live webinars, alumni talks, and virtual events.</p></div></div>
+        </div>
+        <div class="rvis reveal d2">
+          <div class="rvt">Student Dashboard</div><div class="rvs">Your journey forward</div>
+          <div class="rvg">
+            <div class="rvc"><div class="rvn" style="color:var(--em-rich);">1</div><div class="rvl">Active Mentor</div></div>
+            <div class="rvc"><div class="rvn" style="color:var(--em);">5</div><div class="rvl">Applications</div></div>
+            <div class="rvc"><div class="rvn" style="color:var(--gold);">23</div><div class="rvl">Connections</div></div>
+            <div class="rvc"><div class="rvn" style="color:#10B981;">3</div><div class="rvl">Events RSVP'd</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="rpanel" id="rp-ad">
+        <div class="rfl">
+          <div class="rfi reveal"><div class="ric">🗄️</div><div><h4>Manage Alumni Database</h4><p>Verify profiles, manage bulk imports, maintain records.</p></div></div>
+          <div class="rfi reveal d1"><div class="ric">📊</div><div><h4>Analytics Dashboard</h4><p>Monitor engagement, mentorship rates, job placements.</p></div></div>
+          <div class="rfi reveal d2"><div class="ric">📅</div><div><h4>Manage Events</h4><p>Create, edit, and track events, attendance, and feedback.</p></div></div>
+          <div class="rfi reveal d3"><div class="ric">📄</div><div><h4>Generate Reports</h4><p>Export analytics as PDF or CSV for institutional review.</p></div></div>
+        </div>
+        <div class="rvis reveal d2">
+          <div class="rvt">Admin Dashboard</div><div class="rvs">Platform overview</div>
+          <div class="rvg">
+            <div class="rvc"><div class="rvn" style="color:var(--em);">12,480</div><div class="rvl">Total Alumni</div></div>
+            <div class="rvc"><div class="rvn" style="color:#10B981;">94%</div><div class="rvl">Verified</div></div>
+            <div class="rvc"><div class="rvn" style="color:var(--gold);">840</div><div class="rvl">Mentorships</div></div>
+            <div class="rvc"><div class="rvn" style="color:var(--em-rich);">156</div><div class="rvl">Events</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section class="workflow">
+    <div class="container" style="position:relative;z-index:1;">
+      <div style="text-align:center;margin-bottom:16px;" class="reveal"><span class="tag tag-lt">How It Works</span></div>
+      <h2 class="section-title reveal">Your journey in four steps</h2>
+      <p class="section-sub reveal">From signing up to building relationships that last a lifetime.</p>
+      <div class="steps">
+        <div class="step s1 reveal d1"><div class="sn">01</div><h3>Profile Creation</h3><p>Build your profile, verify your institutional affiliation, and set your goals.</p></div>
+        <div class="step s2 reveal d2"><div class="sn">02</div><h3>Discovery</h3><p>Our smart engine surfaces alumni, mentors, jobs, and events matched to your interests.</p></div>
+        <div class="step s3 reveal d3"><div class="sn">03</div><h3>Engagement</h3><p>Connect through messaging, group sessions, live events, and mentorship programmes.</p></div>
+        <div class="step s4 reveal d4"><div class="sn">04</div><h3>Growth</h3><p>Build long-term relationships, land opportunities, and give back to the next generation.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       NEW: EVENTS SECTION
+  ══════════════════════════════════════════════ -->
+  <section class="events-sec" id="events">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:16px;" class="reveal"><span class="tag tag-dk">Upcoming Events</span></div>
+      <h2 class="section-title reveal">Stay connected, <em>stay inspired</em></h2>
+      <p class="section-sub reveal">Webinars, reunions, and networking sessions happening right now.</p>
+      <div class="events-grid">
+        <div class="ev-card reveal d1">
+          <div class="ev-banner ev-banner-em">
+            🎤
+            <div class="ev-date-badge"><div class="ev-date-d">22</div><div class="ev-date-m">Mar</div></div>
+          </div>
+          <div class="ev-body">
+            <div class="ev-tag ev-tag-web">Webinar</div>
+            <div class="ev-title">Breaking into Big Tech: Alumni Panel 2025</div>
+            <div class="ev-meta"><span>🕐 5:00 PM</span><span>📍 Virtual</span></div>
+            <button class="ev-rsvp" onclick="showToast('✅ RSVP confirmed for Alumni Panel!')">RSVP Now →</button>
+          </div>
+        </div>
+        <div class="ev-card reveal d2">
+          <div class="ev-banner ev-banner-gold">
+            🎓
+            <div class="ev-date-badge"><div class="ev-date-d">05</div><div class="ev-date-m">Apr</div></div>
+          </div>
+          <div class="ev-body">
+            <div class="ev-tag ev-tag-reunion">Reunion</div>
+            <div class="ev-title">PSG Tech Batch 2018 Annual Reunion</div>
+            <div class="ev-meta"><span>🕐 10:00 AM</span><span>📍 Coimbatore</span></div>
+            <button class="ev-rsvp" onclick="showToast('✅ RSVP confirmed for Batch Reunion!')">RSVP Now →</button>
+          </div>
+        </div>
+        <div class="ev-card reveal d3">
+          <div class="ev-banner ev-banner-blue">
+            💡
+            <div class="ev-date-badge"><div class="ev-date-d">12</div><div class="ev-date-m">Apr</div></div>
+          </div>
+          <div class="ev-body">
+            <div class="ev-tag ev-tag-talk">Talk</div>
+            <div class="ev-title">From Campus to Startup: Founders Edition</div>
+            <div class="ev-meta"><span>🕐 6:30 PM</span><span>📍 Virtual</span></div>
+            <button class="ev-rsvp" onclick="showToast('✅ RSVP confirmed for Founders Talk!')">RSVP Now →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       NEW: STATS COUNTER
+  ══════════════════════════════════════════════ -->
+  <section class="stats-sec">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-number" data-target="12480">0</div>
+          <div class="stat-label">Alumni Registered</div>
+          <div class="stat-sub">↑ 28% this year</div>
+        </div>
+        <div class="stat-item reveal d1">
+          <div class="stat-number" data-target="3400">0</div>
+          <div class="stat-label">Active Students</div>
+          <div class="stat-sub">Across 48 institutions</div>
+        </div>
+        <div class="stat-item reveal d2">
+          <div class="stat-number" data-target="840">0</div>
+          <div class="stat-label">Mentorships Formed</div>
+          <div class="stat-sub">↑ 42% YoY growth</div>
+        </div>
+        <div class="stat-item reveal d3">
+          <div class="stat-number" data-target="2400">0</div>
+          <div class="stat-label">Jobs Filled</div>
+          <div class="stat-sub">via alumni referrals</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:16px;" class="reveal"><span class="tag tag-lt">Success Stories</span></div>
+      <h2 class="section-title reveal">Real impact, real connections</h2>
+      <p class="section-sub reveal">Hear from alumni and students whose careers changed through RootsBridge.</p>
+      <div class="tg">
+        <div class="tc tc-feat reveal">
+          <div class="tc-q">"</div>
+          <div>
+            <div class="gold-strip">🌟 Featured Story · Most impactful connection of 2024</div>
+            <div class="tstars">★★★★★</div>
+            <p class="tq">Three months after joining RootsBridge, I had a job offer from a senior alumnus who'd been in my exact situation eight years ago. It didn't just connect us — it built trust before we even spoke.</p>
+            <div class="ta"><div class="tav" style="background:linear-gradient(135deg,#D4A847,#A07820);">KS</div><div><div class="tn">Kavya Subramanian</div><div class="tr2">Data Engineer, Swiggy · Class of 2023</div></div></div>
+          </div>
+        </div>
+        <div class="tc reveal d1">
+          <div class="tstars">★★★★★</div>
+          <p class="tq">The mentorship module matched me with an alumna at Microsoft who had my exact niche. Weekly sessions, structured goals — like having a personal career coach.</p>
+          <div class="ta"><div class="tav" style="background:linear-gradient(135deg,#047857,#059669);">SM</div><div><div class="tn">Sahana Menon</div><div class="tr2">Final Year, CSE · VNIT</div></div></div>
+        </div>
+        <div class="tc reveal d2">
+          <div class="tstars">★★★★★</div>
+          <p class="tq">I posted an internship for my startup and had 20 highly relevant applications in 24 hours. Every applicant knew our space perfectly.</p>
+          <div class="ta"><div class="tav" style="background:linear-gradient(135deg,#059669,#10B981);">VN</div><div><div class="tn">Vivek Nair</div><div class="tr2">Founder, FinEdge · Class of 2016</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-sec" id="contact">
+    <div class="container">
+      <div class="cta-box reveal">
+        <div class="cta-inner">
+          <div class="tag tag-lt" style="margin-bottom:20px;">Get Started Today</div>
+          <h2 class="cta-title">Your network is waiting.<br/>Build your <em>bridge</em> now.</h2>
+          <p class="cta-sub">Join 12,000+ alumni and students already using RootsBridge to grow their careers.</p>
+          <div class="cta-acts">
+            <a href="#" class="btn btn-em" onclick="goToSignup()" style="box-shadow:0 6px 24px rgba(16,185,129,.4);">Create Your Profile →</a>
+            <a href="#" class="btn btn-ghost" onclick="showDemoModal()">Schedule a Demo</a>
+          </div>
+          <p class="cta-note">Free for students · No credit card required · Alumni get full access</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="fg2">
+        <div class="fb-brand">
+          <div class="logo" style="color:#fff;margin-bottom:16px;">
+            <div class="logo-mark"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="5" r="3" fill="white"/><circle cx="4" cy="15" r="2.5" fill="white" opacity=".7"/><circle cx="16" cy="15" r="2.5" fill="white" opacity=".7"/><line x1="10" y1="8" x2="4" y2="12.5" stroke="white" stroke-width="1.6"/><line x1="10" y1="8" x2="16" y2="12.5" stroke="white" stroke-width="1.6"/></svg></div>
+            Roots<em style="color:#6EE7B7;">Bridge</em>
+          </div>
+          <p>Connecting generations of talent through meaningful mentorship, smart networking, and real career opportunities.</p>
+          <div class="slinks">
+            <a href="#" class="slink"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            <a href="#" class="slink"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="#" class="slink"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          </div>
+        </div>
+        <div class="fcol"><h5>Platform</h5><ul><li><a href="#">Alumni Directory</a></li><li><a href="#">Mentorship Hub</a></li><li><a href="#">Job Board</a></li><li><a href="#">Events</a></li><li><a href="#">AI Matching</a></li></ul></div>
+        <div class="fcol"><h5>Company</h5><ul><li><a href="#">About Us</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Contact</a></li></ul></div>
+        <div class="fcol">
+          <h5>Legal</h5><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Cookie Policy</a></li></ul>
+          <div class="footer-newsletter">
+            <h5>Newsletter</h5>
+            <div class="newsletter-form">
+              <input type="email" class="newsletter-input" placeholder="your@email.com"/>
+              <button class="newsletter-btn" onclick="showToast('📬 Subscribed to RootsBridge updates!')">Join</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fbot">
+        <div>© 2025 RootsBridge. All rights reserved. · Made with ❤️ in Coimbatore</div>
+        <div style="display:flex;gap:20px;"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+      </div>
+    </div>
+  </footer>
+</div><!-- end page-landing -->
+
+<!-- ════════════════════════════════════════════════
+     MODALS (NEW)
+════════════════════════════════════════════════ -->
+<!-- Forgot Password Modal -->
+<div class="modal-overlay" id="modal-forgot">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-forgot')">✕</button>
+    <div class="modal-title">Reset Password</div>
+    <div class="modal-sub">Enter your email and we'll send you a reset link.</div>
+    <div class="lp-form">
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="you@institution.edu" id="forgot-email"/>
+      </div>
+      <button class="submit-btn" onclick="handleForgotPassword()">Send Reset Link <span class="btn-arrow">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Demo Modal -->
+<div class="modal-overlay" id="modal-demo">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-demo')">✕</button>
+    <div class="modal-title">Schedule a Demo</div>
+    <div class="modal-sub">See RootsBridge in action with a personalised walkthrough.</div>
+    <div class="lp-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="Dr. Anita Pillai"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Institution</label>
+          <input type="text" class="form-input" placeholder="PSG Tech"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="admin@psgtech.ac.in"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Preferred Date</label>
+        <input type="date" class="form-input"/>
+      </div>
+      <button class="submit-btn" onclick="handleDemoRequest()">Book My Demo <span class="btn-arrow">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Alumni Quick View Modal -->
+<div class="modal-overlay" id="modal-alumni">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-alumni')">✕</button>
+    <div class="modal-title">Alumni Directory</div>
+    <div class="modal-sub">Explore our community of 12,000+ verified alumni.</div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--r);background:var(--em-pale);border:1px solid rgba(5,150,105,.1);">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#059669,#10B981);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.8rem;">AK</div>
+        <div><div style="font-weight:700;color:var(--ink);font-size:.9rem;">Arjun Krishnamurthy</div><div style="font-size:.76rem;color:var(--ink-muted);">Google · ML Engineer</div></div>
+        <button style="margin-left:auto;padding:6px 14px;border-radius:100px;background:var(--em);color:#fff;border:none;font-size:.74rem;font-weight:600;cursor:pointer;" onclick="showToast('📩 Connection request sent!')">Connect</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--r);background:var(--em-pale);border:1px solid rgba(5,150,105,.1);">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#D4A847,#A07820);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.8rem;">SM</div>
+        <div><div style="font-weight:700;color:var(--ink);font-size:.9rem;">Sowmya Mahesh</div><div style="font-size:.76rem;color:var(--ink-muted);">Flipkart · Product Manager</div></div>
+        <button style="margin-left:auto;padding:6px 14px;border-radius:100px;background:var(--em);color:#fff;border:none;font-size:.74rem;font-weight:600;cursor:pointer;" onclick="showToast('📩 Connection request sent!')">Connect</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px;">
+      <a href="#" class="btn btn-em" style="font-size:.85rem;" onclick="closeModal('modal-alumni');goToSignup()">Sign Up to View All Alumni →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg">Success!</span></div>
+
+<script>
+  let currentRole = 'alumni';
+  document.body.style.overflow = 'hidden';
+
+  /* ─── Splash ─────────────────────────────────────────────────── */
+  function dismissSplash() {
+    const sp = document.getElementById('splash');
+    sp.classList.add('hide');
+    setTimeout(() => {
+      sp.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 820);
+  }
+  setTimeout(dismissSplash, 3000);
+
+  /* ─── Page routing ───────────────────────────────────────────── */
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => {
+      p.classList.remove('active');
+      p.style.display = 'none';
+    });
+    const pg = document.getElementById(id);
+    pg.style.display = (id === 'page-login') ? 'flex' : 'block';
+    pg.classList.add('active');
+    window.scrollTo(0, 0);
+    if (id === 'page-landing') initLanding();
+  }
+
+  function goToLogin()  { showPage('page-login'); showSignin(); }
+  function goToSignup() { showPage('page-login'); showSignup(); }
+  function goToLanding(){ showPage('page-landing'); }
+
+  /* ─── Role select ────────────────────────────────────────────── */
+  function setRole(btn, role) {
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentRole = role;
+    const yl = document.getElementById('year-label');
+    const gy = document.getElementById('grad-year');
+    if (yl && gy) {
+      if (role === 'alumni')  { yl.textContent = 'Graduation Year'; gy.placeholder = '2018'; }
+      if (role === 'student') { yl.textContent = 'Expected Graduation Year'; gy.placeholder = '2026'; }
+      if (role === 'admin')   { yl.textContent = 'Employee / Staff ID'; gy.placeholder = 'STF-001'; }
+    }
+  }
+
+  /* ─── Auth panels ────────────────────────────────────────────── */
+  function showSignup() {
+    document.getElementById('signin-panel').classList.add('hidden');
+    document.getElementById('signup-panel').classList.add('active');
+  }
+  function showSignin() {
+    document.getElementById('signin-panel').classList.remove('hidden');
+    document.getElementById('signup-panel').classList.remove('active');
+  }
+
+  /* ─── Password eye toggle ────────────────────────────────────── */
+  function togglePass(id, btn) {
+    const inp = document.getElementById(id);
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+    } else {
+      inp.type = 'password';
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    }
+  }
+
+  /* ─── Password strength ──────────────────────────────────────── */
+  const suPass = document.getElementById('su-pass');
+  if (suPass) {
+    suPass.addEventListener('input', function() {
+      const v = this.value;
+      let score = 0;
+      if (v.length >= 8) score++;
+      if (/[A-Z]/.test(v)) score++;
+      if (/[0-9]/.test(v)) score++;
+      if (/[^A-Za-z0-9]/.test(v)) score++;
+      const bar = document.getElementById('str-bar');
+      const lbl = document.getElementById('str-label');
+      const states = [
+        {w:'0%',  c:'transparent', t:'—'},
+        {w:'25%', c:'#DC2626',     t:'Weak'},
+        {w:'50%', c:'#F59E0B',     t:'Fair'},
+        {w:'75%', c:'#3B82F6',     t:'Good'},
+        {w:'100%',c:'#10B981',     t:'Strong'},
+      ];
+      bar.style.width = states[score].w;
+      bar.style.background = states[score].c;
+      lbl.textContent = states[score].t;
+      lbl.style.color = states[score].c;
+    });
+  }
+
+  /* ─── Form validation helpers ────────────────────────────────── */
+  function showErr(id, msg) {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = msg; el.style.display = 'block'; }
+  }
+  function clearErr(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  }
+
+  /* ─── Login handler ──────────────────────────────────────────── */
+  function handleLogin() {
+    const email = document.getElementById('si-email').value.trim();
+    const pass  = document.getElementById('si-pass').value;
+    let ok = true;
+    clearErr('si-email-err'); clearErr('si-pass-err');
+    document.getElementById('si-email').classList.remove('error');
+    document.getElementById('si-pass').classList.remove('error');
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      showErr('si-email-err', 'Please enter a valid email address.');
+      document.getElementById('si-email').classList.add('error'); ok = false;
+    }
+    if (pass.length < 6) {
+      showErr('si-pass-err', 'Password must be at least 6 characters.');
+      document.getElementById('si-pass').classList.add('error'); ok = false;
+    }
+    if (!ok) return;
+    const btn = document.querySelector('#signin-panel .submit-btn');
+    btn.textContent = 'Signing in…'; btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '✓ Welcome back!';
+      showToast('🎉 Logged in as ' + currentRole.charAt(0).toUpperCase() + currentRole.slice(1));
+      setTimeout(() => goToLanding(), 900);
+    }, 1200);
+  }
+
+  /* ─── Signup handler ─────────────────────────────────────────── */
+  function handleSignup() {
+    const btn = document.querySelector('#signup-panel .submit-btn');
+    btn.textContent = 'Creating account…'; btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = '✓ Account Created! <span class="btn-arrow">→</span>';
+      showToast('✅ Welcome to RootsBridge!');
+      setTimeout(() => goToLanding(), 900);
+    }, 1400);
+  }
+
+  /* ─── Google login ───────────────────────────────────────────── */
+  function handleGoogleLogin() {
+    showToast('🔐 Connecting with Google…');
+    setTimeout(() => {
+      showToast('✅ Signed in with Google!');
+      setTimeout(() => goToLanding(), 800);
+    }, 1500);
+  }
+
+  /* ─── Toast ──────────────────────────────────────────────────── */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  /* ─── Modals ─────────────────────────────────────────────────── */
+  function showForgotModal()  { document.getElementById('modal-forgot').classList.add('show'); }
+  function showDemoModal()    { document.getElementById('modal-demo').classList.add('show'); }
+  function showAlumniModal()  { document.getElementById('modal-alumni').classList.add('show'); }
+  function closeModal(id)     { document.getElementById(id).classList.remove('show'); }
+
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('show');
+    });
+  });
+
+  function handleForgotPassword() {
+    const email = document.getElementById('forgot-email').value.trim();
+    if (!email) { showToast('⚠️ Please enter your email.'); return; }
+    closeModal('modal-forgot');
+    showToast('📧 Reset link sent to ' + email);
+  }
+
+  function handleDemoRequest() {
+    closeModal('modal-demo');
+    showToast('🎉 Demo booked! We\'ll confirm via email.');
+  }
+
+  /* ─── Landing page init ──────────────────────────────────────── */
+  function initLanding() {
+    const sb = document.getElementById('sb');
+    const nb = document.getElementById('nb');
+    if (sb && nb) {
+      window.addEventListener('scroll', () => {
+        sb.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+        nb.classList.toggle('scrolled', window.scrollY > 24);
+      });
+    }
+    const hbg = document.getElementById('hbg');
+    const mm  = document.getElementById('mm');
+    if (hbg && mm) {
+      hbg.addEventListener('click', () => mm.classList.toggle('open'));
+      mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
+    }
+    // Reveal observer
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          // Trigger counter if stat-number
+          if (e.target.classList.contains('stat-item')) {
+            e.target.querySelectorAll('.stat-number[data-target]').forEach(animateCounter);
+          }
+          ro.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('#page-landing .reveal').forEach(el => ro.observe(el));
+  }
+
+  /* ─── Animated counters ──────────────────────────────────────── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const duration = 1600;
+    const step = Math.ceil(target / (duration / 16));
+    let current = 0;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current.toLocaleString('en-IN') + '+';
+      if (current >= target) clearInterval(timer);
+    }, 16);
+  }
+
+  /* ─── Role tabs ──────────────────────────────────────────────── */
+  function sr(id, btn) {
+    document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.rpanel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('rp-' + id);
+    if (panel) panel.classList.add('active');
+  }
+
+  /* ─── Alumni search filter ───────────────────────────────────── */
+  function filterAlumni(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('.alumni-card').forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.style.display = text.includes(q) ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>

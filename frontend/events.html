@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Events – RootsBridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .ev-card{background:var(--card);border:1px solid var(--border-lt);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh-sm);transition:var(--tr)}
+    .ev-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md)}
+    .ev-banner{height:100px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;position:relative}
+    .ev-banner-em{background:linear-gradient(135deg,#023B2C,#059669)}
+    .ev-banner-gold{background:linear-gradient(135deg,#3D2B06,#D4A847)}
+    .ev-banner-blue{background:linear-gradient(135deg,#0C1A6B,#3B82F6)}
+    .ev-date-badge{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border-radius:8px;padding:5px 10px;text-align:center}
+    .ev-date-d{font-family:var(--fd);font-size:1.2rem;font-weight:700;color:#fff;line-height:1}
+    .ev-date-m{font-size:.64rem;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:.05em;text-transform:uppercase}
+    .ev-body{padding:20px}
+    .ev-tag{display:inline-block;padding:3px 9px;border-radius:100px;font-size:.65rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+    .ev-tag-web{background:var(--em-pale);color:var(--em-rich)}
+    .ev-tag-reunion{background:var(--gold-lt);color:var(--gold-rich)}
+    .ev-tag-talk{background:#F0F9FF;color:#0369A1}
+    .ev-title{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px}
+    .ev-meta{font-size:.76rem;color:var(--ink-muted);margin-bottom:10px;display:flex;gap:12px}
+    .ev-attendees{font-size:.74rem;color:var(--em);font-weight:600;margin-bottom:14px}
+    .ev-rsvp{width:100%;padding:10px;border-radius:10px;background:linear-gradient(135deg,var(--em-glow),var(--em-rich));color:#fff;border:none;font-family:var(--fb);font-size:.82rem;font-weight:600;cursor:pointer;transition:var(--tr)}
+    .ev-rsvp:hover{opacity:.88}
+    .ev-rsvp.rsvpd{background:var(--em-pale);color:var(--em-rich)}
+    @media(max-width:1024px){.events-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:768px){.events-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div id="main-nav"></div>
+<div class="dash-body">
+  <div class="container">
+    <div class="dash-header" style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div><h1 class="dash-title">Events & Reunions</h1><p class="dash-subtitle">Webinars, meetups, and reunions — stay connected.</p></div>
+      <button class="btn btn-em btn-sm" onclick="showModal('modal-ce')">+ Create Event</button>
+    </div>
+    <div class="events-grid" id="events-grid"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-ce">
+  <div class="modal-box" style="max-width:540px;">
+    <button class="modal-close" onclick="closeModal('modal-ce')">✕</button>
+    <div class="modal-title">Create Event</div>
+    <div class="modal-sub">Organize reunions, webinars, and sessions.</div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="form-group"><label class="form-label">Title</label><input type="text" class="form-input" id="ce-title" placeholder="Alumni Panel 2025"/></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="ce-date"/></div>
+        <div class="form-group"><label class="form-label">Time</label><input type="time" class="form-input" id="ce-time"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Type</label><select class="form-select" id="ce-type"><option value="webinar">Webinar</option><option value="reunion">Reunion</option><option value="talk">Talk</option><option value="meetup">Meetup</option></select></div>
+        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="ce-loc" placeholder="Virtual"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="ce-desc" placeholder="Describe your event…"></textarea></div>
+      <button class="submit-btn" onclick="createEvt()">Create Event →</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+<script src="js/config.js"></script><script src="js/api.js"></script><script src="js/app.js"></script>
+<script>
+if(!requireAuth()){}
+renderNav('events');
+const evts=[
+  {title:'Breaking into Big Tech: Alumni Panel',date:'22',month:'Mar',time:'5:00 PM',loc:'Virtual',type:'webinar',banner:'em',icon:'🎤',att:145},
+  {title:'Batch 2018 Annual Reunion',date:'05',month:'Apr',time:'10:00 AM',loc:'Coimbatore',type:'reunion',banner:'gold',icon:'🎓',att:89},
+  {title:'Campus to Startup: Founders Edition',date:'12',month:'Apr',time:'6:30 PM',loc:'Virtual',type:'talk',banner:'blue',icon:'💡',att:210},
+  {title:'System Design Workshop',date:'18',month:'Apr',time:'3:00 PM',loc:'Virtual',type:'webinar',banner:'em',icon:'⚡',att:75},
+  {title:'AI/ML Career Paths',date:'25',month:'Apr',time:'4:00 PM',loc:'Virtual',type:'webinar',banner:'blue',icon:'🤖',att:320},
+  {title:'Alumni Mixer – Chennai',date:'02',month:'May',time:'7:00 PM',loc:'Chennai',type:'reunion',banner:'gold',icon:'🍷',att:56},
+];
+const tm={webinar:'ev-tag-web',reunion:'ev-tag-reunion',talk:'ev-tag-talk',meetup:'ev-tag-web'};
+document.getElementById('events-grid').innerHTML=evts.map(e=>`<div class="ev-card"><div class="ev-banner ev-banner-${e.banner}">${e.icon}<div class="ev-date-badge"><div class="ev-date-d">${e.date}</div><div class="ev-date-m">${e.month}</div></div></div><div class="ev-body"><div class="ev-tag ${tm[e.type]||'ev-tag-web'}">${e.type}</div><div class="ev-title">${e.title}</div><div class="ev-meta"><span>🕐 ${e.time}</span><span>📍 ${e.loc}</span></div><div class="ev-attendees">👥 ${e.att} attending</div><button class="ev-rsvp" onclick="rsvp(this,'${e.title}')">RSVP Now →</button></div></div>`).join('');
+function rsvp(b,t){if(b.classList.contains('rsvpd')){b.classList.remove('rsvpd');b.textContent='RSVP Now →';showToast('RSVP cancelled');}else{b.classList.add('rsvpd');b.textContent='✓ Confirmed';showToast('✅ RSVP confirmed for '+t+'!');}}
+function createEvt(){const t=document.getElementById('ce-title').value;if(!t){showToast('⚠️ Title required.');return;}closeModal('modal-ce');showToast('✅ Event "'+t+'" created!');}
+</script>
+</body>
+</html>

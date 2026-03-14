@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mentorship Hub – RootsBridge</title>
+  <meta name="description" content="Request and manage mentorship connections on RootsBridge."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .mentorship-tabs { display: flex; gap: 8px; margin-bottom: 28px;
+      background: rgba(5,150,105,.06); border: 1px solid rgba(5,150,105,.12);
+      padding: 6px; border-radius: 100px; width: fit-content; }
+    .m-tab { padding: 10px 24px; border-radius: 100px; border: none; background: transparent;
+      font-family: var(--fb); font-size: .85rem; font-weight: 600; color: var(--ink-muted); cursor: pointer; transition: var(--tr); }
+    .m-tab.active { background: var(--em); color: #fff; box-shadow: 0 4px 14px rgba(5,150,105,.3); }
+    .mentorship-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .mentor-card { background: var(--card); border: 1px solid var(--border-lt); border-radius: var(--rl);
+      padding: 24px; box-shadow: var(--sh-sm); transition: var(--tr); }
+    .mentor-card:hover { box-shadow: var(--sh-md); }
+    .mentor-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .mentor-av { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: .88rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .mentor-name { font-family: var(--fd); font-size: 1rem; font-weight: 700; color: var(--ink); }
+    .mentor-role { font-size: .78rem; color: var(--ink-muted); }
+    .mentor-msg { font-size: .85rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 14px;
+      padding: 12px; border-radius: var(--r); background: rgba(5,150,105,.04); border: 1px solid rgba(5,150,105,.08); }
+    .mentor-actions { display: flex; gap: 8px; }
+    .mentor-accept { flex: 1; padding: 10px; border-radius: 10px; background: var(--em); color: #fff; border: none;
+      font-family: var(--fb); font-size: .82rem; font-weight: 600; cursor: pointer; transition: var(--tr); }
+    .mentor-accept:hover { background: var(--em-rich); }
+    .mentor-reject { flex: 1; padding: 10px; border-radius: 10px; border: 1.5px solid rgba(5,150,105,.18); background: transparent;
+      font-family: var(--fb); font-size: .82rem; font-weight: 600; color: var(--ink-muted); cursor: pointer; transition: var(--tr); }
+    .mentor-reject:hover { border-color: #DC2626; color: #DC2626; }
+    @media (max-width: 768px) { .mentorship-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="main-nav"></div>
+
+<div class="dash-body">
+  <div class="container">
+    <div class="dash-header">
+      <h1 class="dash-title">Mentorship Hub</h1>
+      <p class="dash-subtitle">Build meaningful mentor-mentee relationships that shape careers.</p>
+    </div>
+
+    <div class="mentorship-tabs">
+      <button class="m-tab active" onclick="showMentorTab(this, 'pending')">Pending</button>
+      <button class="m-tab" onclick="showMentorTab(this, 'active')">Active</button>
+      <button class="m-tab" onclick="showMentorTab(this, 'completed')">Completed</button>
+    </div>
+
+    <div class="mentorship-grid" id="mentorship-grid"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+<script>
+  if (!requireAuth()) {}
+  renderNav('mentorship');
+
+  const role = getUserRole();
+
+  const pendingRequests = role === 'alumni' ? [
+    { name: 'Priya Sundar', role: 'B.Tech CSE · 3rd Year', message: 'Hi! I\'m interested in Machine Learning and would love guidance on my journey towards a career in AI research.', status: 'pending' },
+    { name: 'Karthik Ramesh', role: 'B.Tech ECE · Final Year', message: 'I\'m preparing for product management roles and would appreciate mentorship on breaking into PM.', status: 'pending' },
+    { name: 'Ananya Sharma', role: 'M.Tech Data Science · 1st Year', message: 'Looking for guidance on building a strong portfolio for data science positions at top tech companies.', status: 'pending' },
+  ] : [
+    { name: 'Arjun Krishnamurthy', role: 'Sr. Engineer @ Google', message: 'Your mentorship request is being reviewed.', status: 'pending' },
+  ];
+
+  const activeRequests = [
+    { name: role === 'alumni' ? 'Sahana Menon' : 'Priya Kannan', role: role === 'alumni' ? 'Final Year CSE · VNIT' : 'Data Scientist @ Microsoft', message: 'Weekly sessions on career planning and skill development.', status: 'active' },
+  ];
+
+  let currentTab = 'pending';
+
+  function showMentorTab(btn, tab) {
+    document.querySelectorAll('.m-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = tab;
+    renderMentorships();
+  }
+
+  function renderMentorships() {
+    const grid = document.getElementById('mentorship-grid');
+    let data = currentTab === 'pending' ? pendingRequests : currentTab === 'active' ? activeRequests : [];
+
+    if (!data.length) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">🤝</div><div class="empty-title">No ' + currentTab + ' mentorships</div><div class="empty-text">' + (role === 'student' ? 'Browse the alumni directory to find a mentor.' : 'No requests at this time.') + '</div>' + (role === 'student' ? '<a href="alumni.html" class="btn btn-em btn-sm">Find a Mentor →</a>' : '') + '</div>';
+      return;
+    }
+
+    grid.innerHTML = data.map(r => `
+      <div class="mentor-card">
+        <div class="mentor-header">
+          <div class="mentor-av" style="background:${getAvatarColor(r.name)}">${getInitials(r.name)}</div>
+          <div>
+            <div class="mentor-name">${r.name}</div>
+            <div class="mentor-role">${r.role}</div>
+          </div>
+          <span class="badge ${r.status === 'pending' ? 'badge-warning' : r.status === 'active' ? 'badge-success' : 'badge-neutral'}" style="margin-left:auto;">${r.status}</span>
+        </div>
+        <div class="mentor-msg">${r.message}</div>
+        ${r.status === 'pending' && role === 'alumni' ? `
+          <div class="mentor-actions">
+            <button class="mentor-accept" onclick="showToast('✅ Mentorship accepted for ${r.name}!')">Accept</button>
+            <button class="mentor-reject" onclick="showToast('Mentorship declined')">Decline</button>
+          </div>
+        ` : r.status === 'active' ? `
+          <button class="btn btn-em btn-sm btn-block" onclick="window.location.href='messages.html'">💬 Open Chat</button>
+        ` : ''}
+      </div>
+    `).join('');
+  }
+
+  renderMentorships();
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jobs & Internships – RootsBridge</title>
+  <meta name="description" content="Alumni-exclusive job and internship opportunities on RootsBridge."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .job-filters { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
+    .job-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .job-card { background: var(--card); border: 1px solid var(--border-lt); border-radius: var(--rl);
+      padding: 24px; box-shadow: var(--sh-sm); transition: var(--tr); display: flex; gap: 18px; align-items: flex-start; }
+    .job-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); }
+    .job-icon { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+      background: linear-gradient(135deg,var(--em-pale),var(--em-lt)); }
+    .job-info { flex: 1; }
+    .job-title { font-family: var(--fd); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+    .job-co { font-size: .8rem; color: var(--ink-muted); margin-bottom: 10px; }
+    .job-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .job-badge { padding: 3px 9px; border-radius: 100px; font-size: .68rem; font-weight: 600; }
+    .jb-type { background: var(--em-pale); color: var(--em-rich); }
+    .jb-loc { background: #F0F9FF; color: #0369A1; }
+    .jb-pay { background: var(--gold-lt); color: var(--gold-rich); }
+    .jb-new { background: #ECFDF5; color: #065F46; border: 1px solid rgba(5,150,105,.2); }
+    .job-alumni { font-size: .72rem; color: var(--em); font-weight: 600; margin-bottom: 12px; }
+    .job-apply { padding: 8px 18px; border-radius: 100px; background: var(--em); color: #fff; border: none;
+      font-family: var(--fb); font-size: .8rem; font-weight: 600; cursor: pointer; transition: var(--tr); }
+    .job-apply:hover { background: var(--em-rich); transform: translateY(-1px); }
+    @media (max-width: 768px) { .job-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="main-nav"></div>
+
+<div class="dash-body">
+  <div class="container">
+    <div class="dash-header" style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div>
+        <h1 class="dash-title">Jobs & Internships</h1>
+        <p class="dash-subtitle">Alumni-exclusive opportunities — before they hit public boards.</p>
+      </div>
+      <button class="btn btn-em btn-sm" id="post-job-btn" style="display:none;" onclick="showModal('modal-post-job')">+ Post Job</button>
+    </div>
+
+    <div class="job-filters">
+      <button class="filter-chip active" onclick="filterJobs(this, '')">All</button>
+      <button class="filter-chip" onclick="filterJobs(this, 'full-time')">Full-time</button>
+      <button class="filter-chip" onclick="filterJobs(this, 'internship')">Internship</button>
+      <button class="filter-chip" onclick="filterJobs(this, 'contract')">Contract</button>
+    </div>
+
+    <div class="job-grid" id="job-grid"></div>
+  </div>
+</div>
+
+<!-- Post Job Modal -->
+<div class="modal-overlay" id="modal-post-job">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" onclick="closeModal('modal-post-job')">✕</button>
+    <div class="modal-title">Post a Job</div>
+    <div class="modal-sub">Share an opportunity with students in your network.</div>
+    <div class="lp-form" style="display:flex;flex-direction:column;gap:14px;">
+      <div class="form-group"><label class="form-label">Job Title</label><input type="text" class="form-input" id="pj-title" placeholder="Software Engineer – Frontend"/></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Company</label><input type="text" class="form-input" id="pj-company" placeholder="Google India"/></div>
+        <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="pj-location" placeholder="Bangalore"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Type</label>
+          <select class="form-select" id="pj-type"><option value="full-time">Full-time</option><option value="internship">Internship</option><option value="part-time">Part-time</option><option value="contract">Contract</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Salary</label><input type="text" class="form-input" id="pj-salary" placeholder="₹18–24 LPA"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="pj-desc" placeholder="Describe the role, requirements, and perks…"></textarea></div>
+      <button class="submit-btn" onclick="postJob()">Post Job →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+<script>
+  if (!requireAuth()) {}
+  renderNav('jobs');
+
+  const role = getUserRole();
+  if (role === 'alumni' || role === 'admin') document.getElementById('post-job-btn').style.display = '';
+
+  const sampleJobs = [
+    { title: 'Software Engineer – Frontend', company: 'Google India', location: 'Bangalore', job_type: 'full-time', work_mode: 'Hybrid', salary: '₹18–24 LPA', posted_by_name: 'Arjun Krishnamurthy', grad_year: '2018', is_new: true },
+    { title: 'Product Manager Intern', company: 'Flipkart', location: 'Chennai', job_type: 'internship', work_mode: 'On-site', salary: '₹50K/mo', posted_by_name: 'Sowmya Mahesh', grad_year: '2019' },
+    { title: 'ML Research Engineer', company: 'Microsoft', location: 'Hyderabad', job_type: 'full-time', work_mode: 'Remote', salary: '₹22–30 LPA', posted_by_name: 'Priya Kannan', grad_year: '2020', is_new: true },
+    { title: 'DevOps Engineer', company: 'Atlassian', location: 'Pune', job_type: 'full-time', work_mode: 'Hybrid', salary: '₹16–20 LPA', posted_by_name: 'Deepak Murali', grad_year: '2017' },
+    { title: 'UX Design Intern', company: 'Adobe', location: 'Noida', job_type: 'internship', work_mode: 'On-site', salary: '₹35K/mo', posted_by_name: 'Nithya Gopalan', grad_year: '2021' },
+    { title: 'Cloud Solutions Architect', company: 'Amazon', location: 'Hyderabad', job_type: 'full-time', work_mode: 'Hybrid', salary: '₹28–35 LPA', posted_by_name: 'Karthik Raman', grad_year: '2016', is_new: true },
+  ];
+
+  const icons = ['🏢','📱','🤖','☁️','🎨','⚡'];
+  let currentJobFilter = '';
+
+  function renderJobs(jobs) {
+    const grid = document.getElementById('job-grid');
+    if (!jobs.length) { grid.innerHTML = '<div class="empty-state"><div class="empty-icon">💼</div><div class="empty-title">No jobs found</div><div class="empty-text">Check back soon for new opportunities.</div></div>'; return; }
+    grid.innerHTML = jobs.map((j, i) => `
+      <div class="job-card">
+        <div class="job-icon">${icons[i % icons.length]}</div>
+        <div class="job-info">
+          <div class="job-title">${j.title}</div>
+          <div class="job-co">${j.company} · ${j.location}</div>
+          <div class="job-meta">
+            <span class="job-badge jb-type">${j.job_type}</span>
+            <span class="job-badge jb-loc">${j.work_mode}</span>
+            <span class="job-badge jb-pay">${j.salary}</span>
+            ${j.is_new ? '<span class="job-badge jb-new">✨ New</span>' : ''}
+          </div>
+          <div class="job-alumni">👤 Posted by ${j.posted_by_name} · Class of ${j.grad_year}</div>
+          ${role === 'student' ? `<button class="job-apply" onclick="showToast('✅ Application submitted for ${j.title}!')">Apply Now →</button>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterJobs(btn, type) {
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentJobFilter = type;
+    const filtered = type ? sampleJobs.filter(j => j.job_type === type) : sampleJobs;
+    renderJobs(filtered);
+  }
+
+  function postJob() {
+    const title = document.getElementById('pj-title').value;
+    const company = document.getElementById('pj-company').value;
+    if (!title || !company) { showToast('⚠️ Title and company are required.'); return; }
+    closeModal('modal-post-job');
+    showToast('✅ Job "' + title + '" posted successfully!');
+  }
+
+  renderJobs(sampleJobs);
+</script>
+</body>
+</html>

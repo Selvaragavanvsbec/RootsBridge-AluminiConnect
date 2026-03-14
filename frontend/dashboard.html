@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard – RootsBridge</title>
+  <meta name="description" content="Your RootsBridge dashboard. Manage your alumni connections, mentorship, jobs, and events."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
+    .qa-card { padding: 20px; border-radius: var(--rl); background: var(--card); border: 1px solid var(--border-lt);
+      box-shadow: var(--sh-sm); transition: var(--tr); cursor: pointer; text-align: center; text-decoration: none; color: var(--ink); }
+    .qa-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); border-color: var(--em); }
+    .qa-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .qa-label { font-size: .88rem; font-weight: 600; }
+    .qa-desc { font-size: .76rem; color: var(--ink-muted); margin-top: 4px; }
+    .activity-card { background: var(--card); border: 1px solid var(--border-lt); border-radius: var(--rl);
+      padding: 24px; box-shadow: var(--sh-sm); }
+    .activity-card h3 { font-family: var(--fd); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 16px; }
+    .activity-item { display: flex; align-items: center; gap: 12px; padding: 12px 0;
+      border-bottom: 1px solid rgba(5,150,105,.06); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-avatar { width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .activity-text { flex: 1; }
+    .activity-name { font-size: .85rem; font-weight: 600; color: var(--ink); }
+    .activity-desc { font-size: .76rem; color: var(--ink-muted); }
+    .activity-time { font-size: .72rem; color: var(--ink-muted); white-space: nowrap; }
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--jewel), var(--obsidian));
+      border-radius: var(--rl); padding: 36px 40px; margin-bottom: 28px;
+      position: relative; overflow: hidden;
+    }
+    .welcome-banner::before { content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 50%,rgba(16,185,129,.15),transparent 60%); pointer-events: none; }
+    .welcome-banner h1 { font-family: var(--fd); font-size: 1.8rem; font-weight: 700; color: #fff; position: relative; z-index: 1; }
+    .welcome-banner h1 em { color: #6EE7B7; font-style: italic; }
+    .welcome-banner p { font-size: .92rem; color: rgba(255,255,255,.55); position: relative; z-index: 1; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+<div id="main-nav"></div>
+
+<div class="dash-body">
+  <div class="container">
+    <!-- Welcome Banner -->
+    <div class="welcome-banner" id="welcome-banner">
+      <h1>Welcome back, <em id="user-name">User</em> 👋</h1>
+      <p id="welcome-sub">Here's what's happening on your network today.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card"><div class="stat-icon">🎓</div><div class="stat-value" id="stat-1">0</div><div class="stat-label" id="stat-1-label">Loading...</div></div>
+      <div class="stat-card"><div class="stat-icon">💼</div><div class="stat-value" id="stat-2">0</div><div class="stat-label" id="stat-2-label">Loading...</div></div>
+      <div class="stat-card"><div class="stat-icon">🤝</div><div class="stat-value" id="stat-3">0</div><div class="stat-label" id="stat-3-label">Loading...</div></div>
+      <div class="stat-card"><div class="stat-icon">🗓️</div><div class="stat-value" id="stat-4">0</div><div class="stat-label" id="stat-4-label">Loading...</div></div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions" id="quick-actions"></div>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+      <div class="activity-card">
+        <h3>📋 Recent Activity</h3>
+        <div id="activity-feed">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+      <div class="activity-card">
+        <h3>🗓️ Upcoming Events</h3>
+        <div id="events-feed">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+<script>
+  if (!requireAuth()) { /* redirected */ }
+
+  const user = getUser();
+  const role = getUserRole();
+
+  renderNav('dashboard');
+
+  // Welcome banner
+  document.getElementById('user-name').textContent = user ? user.full_name.split(' ')[0] : 'User';
+
+  // Role-based dashboard
+  function setupDashboard() {
+    const stats = document.getElementById('stats-row');
+    const qa = document.getElementById('quick-actions');
+
+    if (role === 'alumni') {
+      document.getElementById('stat-1').textContent = '4'; document.getElementById('stat-1-label').textContent = 'Active Mentees';
+      document.getElementById('stat-2').textContent = '12'; document.getElementById('stat-2-label').textContent = 'Jobs Posted';
+      document.getElementById('stat-3').textContent = '89'; document.getElementById('stat-3-label').textContent = 'Network Size';
+      document.getElementById('stat-4').textContent = '2'; document.getElementById('stat-4-label').textContent = 'Events Hosted';
+      qa.innerHTML = `
+        <a href="jobs.html" class="qa-card"><div class="qa-icon">💼</div><div class="qa-label">Post a Job</div><div class="qa-desc">Share opportunities with students</div></a>
+        <a href="mentorship.html" class="qa-card"><div class="qa-icon">🤝</div><div class="qa-label">Mentorship</div><div class="qa-desc">Review pending requests</div></a>
+        <a href="events.html" class="qa-card"><div class="qa-icon">🗓️</div><div class="qa-label">Create Event</div><div class="qa-desc">Host a reunion or webinar</div></a>
+      `;
+    } else if (role === 'student') {
+      document.getElementById('stat-1').textContent = '1'; document.getElementById('stat-1-label').textContent = 'Active Mentor';
+      document.getElementById('stat-2').textContent = '5'; document.getElementById('stat-2-label').textContent = 'Applications';
+      document.getElementById('stat-3').textContent = '23'; document.getElementById('stat-3-label').textContent = 'Connections';
+      document.getElementById('stat-4').textContent = '3'; document.getElementById('stat-4-label').textContent = "Events RSVP'd";
+      qa.innerHTML = `
+        <a href="alumni.html" class="qa-card"><div class="qa-icon">🔍</div><div class="qa-label">Find Alumni</div><div class="qa-desc">Search the alumni directory</div></a>
+        <a href="jobs.html" class="qa-card"><div class="qa-icon">💼</div><div class="qa-label">Browse Jobs</div><div class="qa-desc">Explore alumni-posted opportunities</div></a>
+        <a href="mentorship.html" class="qa-card"><div class="qa-icon">🎓</div><div class="qa-label">Get a Mentor</div><div class="qa-desc">Request mentorship from alumni</div></a>
+      `;
+    } else {
+      document.getElementById('stat-1').textContent = '12,480'; document.getElementById('stat-1-label').textContent = 'Total Alumni';
+      document.getElementById('stat-2').textContent = '3,400'; document.getElementById('stat-2-label').textContent = 'Active Students';
+      document.getElementById('stat-3').textContent = '840'; document.getElementById('stat-3-label').textContent = 'Mentorships';
+      document.getElementById('stat-4').textContent = '156'; document.getElementById('stat-4-label').textContent = 'Events';
+      qa.innerHTML = `
+        <a href="admin.html" class="qa-card"><div class="qa-icon">📊</div><div class="qa-label">Analytics</div><div class="qa-desc">View platform metrics</div></a>
+        <a href="events.html" class="qa-card"><div class="qa-icon">🗓️</div><div class="qa-label">Manage Events</div><div class="qa-desc">Create and manage events</div></a>
+        <a href="admin.html" class="qa-card"><div class="qa-icon">📄</div><div class="qa-label">Reports</div><div class="qa-desc">Export analytics data</div></a>
+      `;
+    }
+
+    // Mock activity feed
+    document.getElementById('activity-feed').innerHTML = `
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:${getAvatarColor('Priya Sundar')}">PS</div>
+        <div class="activity-text"><div class="activity-name">Priya Sundar</div><div class="activity-desc">Sent you a mentorship request</div></div>
+        <div class="activity-time">2h ago</div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:${getAvatarColor('Rahul Venkatesh')}">RV</div>
+        <div class="activity-text"><div class="activity-name">Rahul Venkatesh</div><div class="activity-desc">Posted a new job: Frontend Engineer</div></div>
+        <div class="activity-time">5h ago</div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:${getAvatarColor('Nithya Gopalan')}">NG</div>
+        <div class="activity-text"><div class="activity-name">Nithya Gopalan</div><div class="activity-desc">Accepted your connection request</div></div>
+        <div class="activity-time">1d ago</div>
+      </div>
+    `;
+
+    // Mock events feed
+    document.getElementById('events-feed').innerHTML = `
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:linear-gradient(135deg,#023B2C,#059669);">🎤</div>
+        <div class="activity-text"><div class="activity-name">Alumni Panel 2025</div><div class="activity-desc">Mar 22 · 5:00 PM · Virtual</div></div>
+        <a href="events.html" style="font-size:.78rem;color:var(--em);font-weight:600;">RSVP →</a>
+      </div>
+      <div class="activity-item">
+        <div class="activity-avatar" style="background:linear-gradient(135deg,#3D2B06,#D4A847);">🎓</div>
+        <div class="activity-text"><div class="activity-name">Batch 2018 Reunion</div><div class="activity-desc">Apr 05 · 10:00 AM · Coimbatore</div></div>
+        <a href="events.html" style="font-size:.78rem;color:var(--em);font-weight:600;">RSVP →</a>
+      </div>
+    `;
+  }
+
+  setupDashboard();
+</script>
+</body>
+</html>
