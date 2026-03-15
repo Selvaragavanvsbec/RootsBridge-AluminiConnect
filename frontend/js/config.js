@@ -4,7 +4,7 @@
 
 const CONFIG = {
   // Backend API base URL
-  API_URL: 'https://roots-bridge-alumni-connect.vercel.app/api',
+  API_URL: 'https://roots-bridge-alumini-connect.vercel.app/api',
 
   // Supabase configuration (for client-side auth)
   SUPABASE_URL: 'https://mbbmdsgzovcwvkzrxfkr.supabase.co',
