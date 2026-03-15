@@ -915,7 +915,7 @@
 <!-- ════════════════════════════════════════════════
      LANDING PAGE
 ════════════════════════════════════════════════ -->
-<div id="page-landing" class="page">
+<div id="page-landing" class="page active">
 
   <div class="sbar" id="sb"></div>
 
@@ -1613,7 +1613,10 @@
       document.body.style.overflow = '';
     }, 820);
   }
-  setTimeout(dismissSplash, 3000);
+  setTimeout(() => {
+    dismissSplash();
+    initLanding();
+  }, 3000);
 
   /* ─── Page routing ───────────────────────────────────────────── */
   function showPage(id) {
