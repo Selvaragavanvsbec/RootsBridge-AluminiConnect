@@ -1,4 +1,6 @@
 # 🌉 RootsBridge – Alumni Connect Platform
+UI Deployment link 
+https://rootsbridge-aluminiconnectapp.netlify.app/
 
 > Connecting generations of talent through mentorship, networking, and career opportunities.
 
